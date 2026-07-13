@@ -420,7 +420,6 @@
             50% { opacity: 0; }
         }
 
-        /* КОНВЕРТ */
         .envelope {
             position: fixed;
             top: 50%;
@@ -485,7 +484,6 @@
             color: #fff;
         }
 
-        /* ЗАПИСКА */
         .letter-popup {
             position: fixed;
             top: 50%;
@@ -558,11 +556,53 @@
         }
 
         .overlay-dark.visible { display: block; }
+
+        /* МУЗЫКА */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,105,180,0.3);
+            border: 1px solid rgba(255,105,180,0.5);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255,105,180,0.5);
+            box-shadow: 0 0 20px rgba(255,105,180,0.5);
+        }
+
+        .music-btn.playing {
+            animation: musicPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%,100% { box-shadow: 0 0 10px rgba(255,105,180,0.3); }
+            50% { box-shadow: 0 0 25px rgba(255,105,180,0.7); }
+        }
     </style>
 </head>
 <body>
 
     <canvas id="heartCanvas"></canvas>
+
+    <!-- МУЗЫКА -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://cdn.files.fm/fe73a8b7f7e7d8f8f8f8f8f8f8f8f8f" type="audio/mpeg">
+    </audio>
+    <div class="music-btn" id="musicBtn" title="Включить музыку">🎵</div>
 
     <div id="overlay">
         <div class="question-box active" id="q1">
@@ -648,7 +688,6 @@
             </div>
             <div class="top-message" id="topMessage"></div>
             
-            <!-- КОНВЕРТ (без видимой записки) -->
             <div class="envelope" id="envelope">
                 <div class="envelope-body">
                     <div class="envelope-flap"></div>
@@ -658,15 +697,88 @@
         </div>
     </div>
 
-    <!-- ТЕМНЫЙ ОВЕРЛЕЙ ДЛЯ ЗАПИСКИ -->
     <div class="overlay-dark" id="overlayDark"></div>
     
-    <!-- ЗАПИСКА (появляется при нажатии на конверт) -->
     <div class="letter-popup" id="letterPopup">
         кирочка моя дорогая,<br>ты мое солнышко,<br>мне нужна только ты<br>моя маленькая любимая<br>принцессочка дуреха 💕
     </div>
 
+    <!-- YouTube IFrame API -->
     <script>
+        // ================================================================
+        // YOUTUBE PLAYER
+        // ================================================================
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+
+        let ytPlayer;
+        let musicPlaying = false;
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('ytPlayerContainer', {
+                height: '0',
+                width: '0',
+                videoId: '-62_AMtHWco',
+                playerVars: {
+                    autoplay: 0,
+                    controls: 0,
+                    loop: 1,
+                    playlist: '-62_AMtHWco',
+                    modestbranding: 1,
+                    rel: 0
+                },
+                events: {
+                    onReady: () => {
+                        ytPlayer.setVolume(40);
+                    }
+                }
+            });
+        }
+
+        // Контейнер для YouTube
+        const ytContainer = document.createElement('div');
+        ytContainer.id = 'ytPlayerContainer';
+        ytContainer.style.cssText = 'position:fixed;top:-9999px;left:-9999px;pointer-events:none;';
+        document.body.appendChild(ytContainer);
+
+        // Кнопка музыки
+        musicBtn.addEventListener('click', () => {
+            if (!musicPlaying) {
+                startMusic();
+            } else {
+                stopMusic();
+            }
+        });
+
+        function startMusic() {
+            if (ytPlayer && ytPlayer.playVideo) {
+                ytPlayer.playVideo();
+                ytPlayer.unMute();
+                musicPlaying = true;
+                musicBtn.classList.add('playing');
+                musicBtn.textContent = '🔊';
+            }
+        }
+
+        function stopMusic() {
+            if (ytPlayer && ytPlayer.pauseVideo) {
+                ytPlayer.pauseVideo();
+                musicPlaying = false;
+                musicBtn.classList.remove('playing');
+                musicBtn.textContent = '🔇';
+            }
+        }
+
+        // Автозапуск при первом клике
+        document.addEventListener('click', function autoStart() {
+            if (!musicPlaying && ytPlayer && ytPlayer.playVideo) {
+                startMusic();
+            }
+        }, { once: false });
+
         // ================================================================
         // ХОЛСТ
         // ================================================================
@@ -796,6 +908,7 @@
         btnYes1.addEventListener('click', () => {
             q1.classList.remove('active');
             loveText1.classList.add('active');
+            if (!musicPlaying) startMusic();
             setTimeout(() => { loveText1.classList.remove('active'); q2.classList.add('active'); }, 2200);
         });
 
@@ -987,28 +1100,22 @@
 
         function showEnvelope() {
             envelope.classList.add('visible');
-            
-            // Нажатие на конверт
             envelope.addEventListener('click', openEnvelope);
         }
 
         function openEnvelope() {
             envelope.classList.add('open');
-            
-            // Показываем записку через небольшую задержку
             setTimeout(() => {
                 letterPopup.classList.add('visible');
                 overlayDark.classList.add('visible');
             }, 600);
         }
 
-        // Нажатие на записку — увеличить
         letterPopup.addEventListener('click', (e) => {
             e.stopPropagation();
             letterPopup.classList.toggle('zoomed');
         });
 
-        // Нажатие на тёмный фон — закрыть записку
         overlayDark.addEventListener('click', () => {
             letterPopup.classList.remove('visible', 'zoomed');
             overlayDark.classList.remove('visible');
