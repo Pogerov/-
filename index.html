@@ -22,13 +22,11 @@
             justify-content: center;
             align-items: center;
             font-family: 'Spore Font RUS', cursive;
-            transition: background-color 0.8s ease;
             overflow: hidden;
             position: relative;
             background: #1a1a2e;
         }
 
-        /* Главное меню */
         .menu-screen {
             display: flex;
             flex-direction: column;
@@ -54,17 +52,18 @@
 
         .buttons-container {
             display: flex;
-            gap: 100px;
+            gap: 80px;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
         }
 
         .mode-btn {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: none;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-family: 'Spore Font RUS', cursive;
             color: white;
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -91,6 +90,14 @@
             animation: pulse-sad 2s ease-in-out infinite;
         }
 
+        .secret-btn {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            animation: pulse-secret 2s ease-in-out infinite;
+            width: 150px;
+            height: 150px;
+            font-size: 1.5rem;
+        }
+
         @keyframes pulse-happy {
             0%, 100% { box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7); }
             50% { box-shadow: 0 0 0 30px rgba(255, 20, 147, 0); }
@@ -99,6 +106,11 @@
         @keyframes pulse-sad {
             0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
             50% { box-shadow: 0 0 0 30px rgba(0, 0, 0, 0); }
+        }
+
+        @keyframes pulse-secret {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            50% { box-shadow: 0 0 0 30px rgba(255, 215, 0, 0); }
         }
 
         .mode-btn::after {
@@ -118,7 +130,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Выбор кота */
         .cat-selection {
             display: none;
             position: fixed;
@@ -182,7 +193,6 @@
             object-fit: cover;
         }
 
-        /* Фоновый блюр */
         .blur-overlay {
             display: none;
             position: fixed;
@@ -191,17 +201,14 @@
             width: 100%;
             height: 100%;
             backdrop-filter: blur(20px);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 25;
-            justify-content: center;
-            align-items: center;
         }
 
         .blur-overlay.show {
-            display: flex;
+            display: block;
         }
 
-        /* Основной контент */
         .content-screen {
             display: none;
             position: fixed;
@@ -233,6 +240,7 @@
             overflow-y: auto;
             padding: 30px;
             text-align: center;
+            z-index: 35;
         }
 
         .main-text {
@@ -261,7 +269,178 @@
             font-size: clamp(1.2rem, 4vw, 3.5rem);
         }
 
-        /* Кнопка выхода */
+        .secret-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            background: #0a0a0a;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .secret-container.show {
+            display: flex;
+        }
+
+        .podium-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .podium-container.show {
+            display: flex;
+        }
+
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 60px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .podium-place .place-number {
+            font-size: 1.5rem;
+            color: #ffd700;
+            font-family: 'Spore Font RUS', cursive;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .podium-place .place-name {
+            font-size: 1.3rem;
+            color: white;
+            font-family: 'Spore Font RUS', cursive;
+            text-align: center;
+            padding: 5px 10px;
+            max-width: 200px;
+        }
+
+        .podium-place .place-pillar {
+            width: 120px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            transition: height 0.5s ease;
+            min-height: 60px;
+        }
+
+        .place-1 .place-pillar {
+            height: 200px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            animation: glow-gold 2s ease-in-out infinite alternate;
+        }
+
+        .place-2 .place-pillar {
+            height: 150px;
+            background: linear-gradient(135deg, #c0c0c0, #808080);
+            box-shadow: 0 0 30px rgba(192, 192, 192, 0.2);
+        }
+
+        .place-3 .place-pillar {
+            height: 120px;
+            background: linear-gradient(135deg, #cd7f32, #8b6914);
+            box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
+        }
+
+        @keyframes glow-gold {
+            from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 0 60px rgba(255, 215, 0, 0.7); }
+        }
+
+        .podium-btn {
+            margin-top: 30px;
+            padding: 18px 50px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.5rem;
+            font-family: 'Spore Font RUS', cursive;
+            cursor: none;
+            transition: all 0.3s ease;
+            letter-spacing: 3px;
+        }
+
+        .podium-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.2);
+            border-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .final-text-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 300;
+            background: #000;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .final-text-container.show {
+            display: flex;
+        }
+
+        .final-text {
+            color: red;
+            font-size: clamp(1.5rem, 4vw, 3.5rem);
+            font-family: 'Hasard Pixelise', cursive;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 1000px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            text-shadow: 0 0 30px rgba(255,0,0,0.5);
+            font-weight: bold;
+        }
+
+        .final-text.visible {
+            opacity: 1;
+        }
+
+        .final-text.blink {
+            animation: blink-text 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink-text {
+            0%, 100% { opacity: 1; text-shadow: 0 0 30px rgba(255,0,0,0.5); }
+            50% { opacity: 0.7; text-shadow: 0 0 60px rgba(255,0,0,0.8), 0 0 100px rgba(255,0,0,0.4); }
+        }
+
         .exit-btn {
             position: fixed;
             top: 20px;
@@ -310,7 +489,6 @@
             background: rgba(255,255,255,0.3);
         }
 
-        /* Поцелуй */
         .kiss-overlay {
             display: none;
             position: fixed;
@@ -325,32 +503,58 @@
             align-items: center;
             flex-direction: column;
             padding: 20px;
+            overflow-y: auto;
         }
 
         .kiss-overlay img {
-            width: 400px;
+            width: 300px;
             max-width: 90%;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .kiss-text-container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
         }
 
         .kiss-text {
             color: red;
-            font-size: clamp(1rem, 3vw, 3rem);
-            margin-top: 30px;
-            max-width: 80%;
-            text-align: center;
+            font-size: clamp(1rem, 3vw, 2.5rem);
             font-family: 'Spore Font RUS', cursive;
+            line-height: 1.8;
             opacity: 0;
             transition: opacity 1s ease;
-            line-height: 1.6;
+            text-shadow: 0 0 20px rgba(255,0,0,0.3);
         }
 
         .kiss-text.visible {
             opacity: 1;
         }
 
-        /* Кнопки веселья */
+        .kiss-close-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.5rem;
+            font-family: 'Spore Font RUS', cursive;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .kiss-close-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+
         .fun-options {
             display: none;
             position: fixed;
@@ -382,7 +586,6 @@
             background: rgba(255,255,255,0.3);
         }
 
-        /* Вопросы */
         .question-modal {
             display: none;
             position: fixed;
@@ -447,7 +650,6 @@
             75% { transform: translateX(20px); }
         }
 
-        /* Обратный отсчет */
         .countdown {
             display: none;
             position: fixed;
@@ -461,7 +663,6 @@
             font-family: 'Spore Font RUS', cursive;
         }
 
-        /* Эмодзи дождь */
         .emoji-rain {
             position: fixed;
             top: 0;
@@ -486,35 +687,6 @@
             transform: scale(1.3) rotate(10deg);
         }
 
-        /* Музыкальный плеер */
-        .music-player {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 45;
-            display: none;
-        }
-
-        .music-player select {
-            padding: 10px 20px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            font-size: 1rem;
-            font-family: 'Spore Font RUS', cursive;
-            cursor: none;
-            outline: none;
-            max-width: 200px;
-        }
-
-        .music-player select option {
-            background: #333;
-            color: white;
-        }
-
-        /* Центральная кнопка для грустного режима */
         .center-btn {
             display: none;
             position: fixed;
@@ -540,7 +712,6 @@
             background: rgba(255,255,255,0.3);
         }
 
-        /* Кастомный курсор */
         .custom-cursor {
             position: fixed;
             pointer-events: none;
@@ -558,9 +729,19 @@
             filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
+        .secret-text {
+            color: #ffd700;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-family: 'Spore Font RUS', cursive;
+            text-align: center;
+            line-height: 1.8;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
         @media (max-width: 768px) {
             .buttons-container { gap: 30px; flex-direction: column; align-items: center; }
             .mode-btn { width: 150px; height: 150px; font-size: 1.2rem; }
+            .secret-btn { width: 120px; height: 120px; font-size: 1.2rem; }
             .cat-options { flex-direction: column; gap: 30px; align-items: center; }
             .cat-option { width: 200px; height: 200px; }
             .content-screen { padding: 80px 20px 20px 20px; }
@@ -568,69 +749,81 @@
             .kiss-overlay img { width: 200px; }
             .question-modal .options { gap: 20px; flex-direction: column; align-items: center; }
             .question-modal .option-btn { padding: 15px 40px; }
-            .music-player { bottom: 20px; right: 20px; }
-            .music-player select { max-width: 150px; font-size: 0.8rem; }
             .countdown { font-size: 5rem; }
             .custom-cursor { width: 30px; height: 30px; }
             .exit-btn, .top-btn { padding: 8px 15px; font-size: 0.8rem; }
+            .kiss-text { font-size: clamp(0.8rem, 2.5vw, 1.5rem); }
+            .kiss-text-container { padding: 10px; }
+            .center-btn { padding: 15px 30px; font-size: 1.2rem; }
+            .podium { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+            .podium-place .place-pillar { width: 80px; min-height: 40px; }
+            .place-1 .place-pillar { height: 120px; }
+            .place-2 .place-pillar { height: 100px; }
+            .place-3 .place-pillar { height: 80px; }
+            .podium-place .place-name { font-size: 1rem; max-width: 120px; }
+            .podium-btn { padding: 15px 30px; font-size: 1.2rem; }
+            .final-text { font-size: clamp(1rem, 2.5vw, 2rem); }
         }
 
         @media (max-width: 480px) {
             .main-title { font-size: 1.5rem; }
             .mode-btn { width: 120px; height: 120px; font-size: 1rem; }
+            .secret-btn { width: 100px; height: 100px; font-size: 1rem; }
             .cat-option { width: 150px; height: 150px; }
             .cat-selection .selection-title { font-size: 2rem; }
             .main-text-wrapper { padding: 10px; }
             .main-text { font-size: clamp(0.9rem, 3vw, 1.8rem); }
-            .kiss-text { font-size: clamp(0.8rem, 2.5vw, 1.5rem); }
+            .kiss-overlay img { width: 150px; }
+            .kiss-text { font-size: clamp(0.7rem, 2vw, 1.2rem); }
+            .podium-place .place-pillar { width: 60px; min-height: 30px; }
+            .place-1 .place-pillar { height: 80px; }
+            .place-2 .place-pillar { height: 70px; }
+            .place-3 .place-pillar { height: 60px; }
+            .podium-place .place-name { font-size: 0.8rem; max-width: 80px; }
+            .podium-btn { padding: 12px 25px; font-size: 1rem; }
+            .podium { gap: 10px; }
+            .final-text { font-size: clamp(0.8rem, 2vw, 1.5rem); }
         }
     </style>
 </head>
 <body>
-    <!-- Главное меню -->
     <div class="menu-screen" id="menuScreen">
         <h1 class="main-title">Какой ты котенок сегодня?</h1>
         <div class="buttons-container">
             <button class="mode-btn happy-btn" onclick="selectMode('happy')">😊 Веселый</button>
             <button class="mode-btn sad-btn" onclick="selectMode('sad')">😢 Грустный</button>
+            <button class="mode-btn secret-btn" onclick="startSecret()">🔮 Секрет</button>
         </div>
     </div>
 
-    <!-- Блюр оверлей -->
     <div class="blur-overlay" id="blurOverlay"></div>
 
-    <!-- Выбор кота -->
     <div class="cat-selection" id="catSelection">
         <h2 class="selection-title" id="selectionTitle">Выбери котенка</h2>
         <div class="cat-options" id="catOptions"></div>
     </div>
 
-    <!-- Основной контент -->
     <div class="content-screen" id="contentScreen">
         <div class="main-text-wrapper">
             <div class="main-text" id="mainText"></div>
         </div>
     </div>
 
-    <!-- Кнопка выхода -->
     <button class="exit-btn" id="exitBtn" onclick="exitMode()">🚪 Выйти</button>
-
-    <!-- Кнопка сверху -->
     <button class="top-btn" id="topBtn" onclick="showKiss()">💋 Поднять настроение</button>
 
-    <!-- Поцелуй -->
     <div class="kiss-overlay" id="kissOverlay">
         <img src="https://media1.tenor.com/m/e9UaftpXx8MAAAAC/cat-kiss.gif" alt="Целующий котик">
-        <div class="kiss-text" id="kissText">Кирочка, ты моя настоящая царица! Ты такая красивая, что я смотрю на тебя и не могу наглядеться. Твои глазки сияют как звёздочки, а улыбка светит ярче солнышка. Ты самая добрая, самая лучшая, самая любимая девочка на свете! Когда ты рядом, я чувствую себя самым счастливым рыцарем. Ты моя королева, моя госпожа, моя принцесса! Я готов носить тебя на руках и всегда говорить, какая ты замечательная. Просто ты — самая прекрасная, и я тебя очень-очень сильно люблю! Ты мой маленький звонкий лучик!</div>
-        <button class="fun-btn" onclick="closeKiss()" style="margin-top: 30px;">Закрыть</button>
+        <div class="kiss-text-container">
+            <div class="kiss-text" id="kissText"></div>
+        </div>
+        <button class="kiss-close-btn" onclick="closeKiss()">Закрыть</button>
     </div>
 
-    <!-- Кнопки веселья -->
     <div class="fun-options" id="funOptions">
         <button class="fun-btn" onclick="startFun()">🎉 Веселье</button>
     </div>
 
-    <!-- Вопросы -->
     <div class="question-modal" id="questionModal">
         <div class="question-text" id="questionText">Ты готова милая моя?</div>
         <div class="options" id="questionOptions">
@@ -639,34 +832,39 @@
         </div>
     </div>
 
-    <!-- Обратный отсчет -->
     <div class="countdown" id="countdown">3</div>
-
-    <!-- Дождь эмодзи -->
     <div class="emoji-rain" id="emojiRain"></div>
-
-    <!-- Музыкальный плеер -->
-    <div class="music-player" id="musicPlayer">
-        <select id="musicSelect" onchange="playMusic()">
-            <option value="">Выберите песню</option>
-            <option value="barbariki">Барбарики</option>
-            <option value="masha">Маши Босая</option>
-            <option value="novella">NOVELLA - IVAN VALEEV</option>
-            <option value="anonymous">Anonymous Ember - Ineedweed</option>
-            <option value="hypnoses">Гипнозы (Hypnoses)</option>
-            <option value="malbek">МАЛЬБЭК (MALBEK)</option>
-            <option value="say">Дай мне сказать</option>
-            <option value="pishem">Пишешь мне пока</option>
-            <option value="tysyachi">Тысячи этажей</option>
-            <option value="gnoy">Гной</option>
-            <option value="stvol">Ствол 2</option>
-        </select>
-    </div>
-
-    <!-- Центральная кнопка для грустного режима -->
     <button class="center-btn" id="centerBtn" onclick="toggleSadMode()">🎵 Включить</button>
 
-    <!-- Кастомный курсор -->
+    <div class="secret-container" id="secretContainer">
+        <div class="secret-text" id="secretText"></div>
+    </div>
+
+    <div class="podium-container" id="podiumContainer">
+        <div class="podium" id="podium">
+            <div class="podium-place place-3">
+                <div class="place-name">НИКТО КРОМЕ ТЕБЯ БУСЯ</div>
+                <div class="place-pillar">🥉</div>
+                <div class="place-number">3 место</div>
+            </div>
+            <div class="podium-place place-2">
+                <div class="place-name">НИКТО КРОМЕ ТЕБЯ БУСЯ</div>
+                <div class="place-pillar">🥈</div>
+                <div class="place-number">2 место</div>
+            </div>
+            <div class="podium-place place-1">
+                <div class="place-name" id="firstPlaceName">Кира❤️‍🔥</div>
+                <div class="place-pillar" id="firstPlacePillar">🥇</div>
+                <div class="place-number">1 место</div>
+            </div>
+        </div>
+        <button class="podium-btn" onclick="showFinalText()">ВСЯ ПРАВДА..</button>
+    </div>
+
+    <div class="final-text-container" id="finalTextContainer">
+        <div class="final-text" id="finalText"></div>
+    </div>
+
     <div class="custom-cursor" id="customCursor"></div>
 
     <script>
@@ -674,13 +872,13 @@
         let selectedCat = 0;
         let isHappyMode = false;
         let isSadMode = false;
-        let musicOn = false;
         let questionStage = 0;
         let isSadActive = false;
         let emojis = [];
         let isDragging = false;
         let dragItem = null;
         let offsetX, offsetY;
+        let secretInterval = null;
 
         const kissSound = new Audio('https://www.myinstants.com/media/sounds/kissing-sound.mp3');
 
@@ -752,10 +950,6 @@
             cursor.appendChild(cursorImg);
             cursor.style.display = 'block';
             
-            showTextWithBlur();
-        }
-
-        function showTextWithBlur() {
             const blurOverlay = document.getElementById('blurOverlay');
             blurOverlay.classList.add('show');
             
@@ -763,8 +957,8 @@
             screen.style.display = 'block';
             screen.className = 'content-screen ' + (isHappyMode ? 'happy' : 'sad');
             
-            document.getElementById('exitBtn').style.display = 'block';
-            document.getElementById('topBtn').style.display = 'block';
+            document.getElementById('exitBtn').style.display = 'none';
+            document.getElementById('topBtn').style.display = 'none';
             
             showMainText();
         }
@@ -795,6 +989,8 @@
                             textEl.classList.remove('visible');
                             setTimeout(() => {
                                 document.getElementById('blurOverlay').classList.remove('show');
+                                document.getElementById('exitBtn').style.display = 'block';
+                                document.getElementById('topBtn').style.display = 'block';
                                 startSadCountdown();
                             }, 500);
                         }, 2000);
@@ -835,6 +1031,8 @@
                             textEl.classList.remove('visible');
                             setTimeout(() => {
                                 document.getElementById('blurOverlay').classList.remove('show');
+                                document.getElementById('exitBtn').style.display = 'block';
+                                document.getElementById('topBtn').style.display = 'block';
                                 document.getElementById('funOptions').style.display = 'flex';
                             }, 500);
                         }, 3000);
@@ -858,7 +1056,6 @@
                     countdownEl.style.display = 'none';
                     blurOverlay.classList.remove('show');
                     document.getElementById('centerBtn').style.display = 'block';
-                    document.getElementById('musicPlayer').style.display = 'block';
                     return;
                 }
                 count--;
@@ -871,15 +1068,12 @@
             const btn = document.getElementById('centerBtn');
             if (!isSadActive) {
                 isSadActive = true;
-                btn.textContent = '🎵 Выключить';
+                btn.textContent = '❌ Выключить';
                 startSadRain();
-                playMusic('barbariki');
             } else {
                 isSadActive = false;
                 btn.textContent = '🎵 Включить';
                 document.getElementById('emojiRain').innerHTML = '';
-                // Останавливаем музыку
-                console.log('Music stopped');
             }
         }
 
@@ -917,19 +1111,32 @@
         }
 
         function showKiss() {
-            document.getElementById('kissOverlay').style.display = 'flex';
+            const overlay = document.getElementById('kissOverlay');
+            overlay.style.display = 'flex';
             kissSound.play();
             
             const kissText = document.getElementById('kissText');
             kissText.classList.remove('visible');
+            kissText.textContent = '';
             
-            setTimeout(() => {
-                kissText.classList.add('visible');
-            }, 100);
+            const text = 'Кирочка, ты моя настоящая царица! Ты такая красивая, что я смотрю на тебя и не могу наглядеться. Твои глазки сияют как звёздочки, а улыбка светит ярче солнышка. Ты самая добрая, самая лучшая, самая любимая девочка на свете! Когда ты рядом, я чувствую себя самым счастливым рыцарем. Ты моя королева, моя госпожа, моя принцесса! Я готов носить тебя на руках и всегда говорить, какая ты замечательная. Просто ты — самая прекрасная, и я тебя очень-очень сильно люблю! Ты мой маленький звонкий лучик!';
+            
+            let charIndex = 0;
+            function typeKiss() {
+                if (charIndex < text.length) {
+                    kissText.textContent += text[charIndex];
+                    charIndex++;
+                    setTimeout(typeKiss, 30);
+                } else {
+                    kissText.classList.add('visible');
+                }
+            }
+            typeKiss();
         }
 
         function closeKiss() {
             document.getElementById('kissOverlay').style.display = 'none';
+            document.getElementById('kissText').textContent = '';
             document.getElementById('kissText').classList.remove('visible');
         }
 
@@ -1040,8 +1247,6 @@
                 }
             `;
             document.head.appendChild(style);
-            
-            playMusic('barbariki');
         }
 
         function startDrag(e) {
@@ -1101,33 +1306,115 @@
             document.removeEventListener('touchend', stopDragTouch);
         }
 
-        function playMusic(song) {
-            const songName = song || document.getElementById('musicSelect').value;
-            console.log('Playing music:', songName);
-            // Здесь нужно добавить реальное воспроизведение
-        }
-
         function exitMode() {
-            // Сброс всех элементов
             document.getElementById('contentScreen').style.display = 'none';
             document.getElementById('exitBtn').style.display = 'none';
             document.getElementById('topBtn').style.display = 'none';
             document.getElementById('funOptions').style.display = 'none';
             document.getElementById('centerBtn').style.display = 'none';
-            document.getElementById('musicPlayer').style.display = 'none';
             document.getElementById('blurOverlay').classList.remove('show');
             document.getElementById('emojiRain').innerHTML = '';
             document.getElementById('customCursor').style.display = 'none';
             document.getElementById('countdown').style.display = 'none';
             document.getElementById('questionModal').style.display = 'none';
             document.getElementById('kissOverlay').style.display = 'none';
+            document.getElementById('kissText').textContent = '';
+            document.getElementById('kissText').classList.remove('visible');
             
             isHappyMode = false;
             isSadMode = false;
             isSadActive = false;
-            musicOn = false;
             
             document.getElementById('menuScreen').style.display = 'flex';
+        }
+
+        // ============ СЕКРЕТНЫЙ РЕЖИМ ============
+        function startSecret() {
+            document.getElementById('menuScreen').style.display = 'none';
+            
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
+            
+            const container = document.getElementById('secretContainer');
+            container.style.display = 'flex';
+            
+            setTimeout(() => {
+                const textEl = document.getElementById('secretText');
+                const text = 'Кирочка, это же секрет, теперь тебе прийдется увидеть всю правду...';
+                textEl.textContent = '';
+                
+                let charIndex = 0;
+                function typeSecret() {
+                    if (charIndex < text.length) {
+                        textEl.textContent += text[charIndex];
+                        charIndex++;
+                        setTimeout(typeSecret, 40);
+                    } else {
+                        setTimeout(() => {
+                            textEl.textContent = '';
+                            container.style.display = 'none';
+                            document.getElementById('blurOverlay').classList.remove('show');
+                            showPodium();
+                        }, 1500);
+                    }
+                }
+                typeSecret();
+            }, 2000);
+        }
+
+        function showPodium() {
+            const podium = document.getElementById('podiumContainer');
+            podium.classList.add('show');
+            
+            setTimeout(() => {
+                const pillar = document.getElementById('firstPlacePillar');
+                let height = 200;
+                const maxHeight = window.innerHeight * 0.7;
+                
+                secretInterval = setInterval(() => {
+                    if (height < maxHeight) {
+                        height += 1.5;
+                        pillar.style.height = height + 'px';
+                    }
+                }, 30);
+            }, 500);
+        }
+
+        function showFinalText() {
+            if (secretInterval) {
+                clearInterval(secretInterval);
+                secretInterval = null;
+            }
+            
+            document.getElementById('podiumContainer').classList.remove('show');
+            
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
+            
+            const container = document.getElementById('finalTextContainer');
+            container.classList.add('show');
+            
+            const textEl = document.getElementById('finalText');
+            const text = 'Кирочка, моя любимая царица, моя родная девочка! Прошло уже полгода с того дня, как мы встретились, а я помню каждую секунду. Помню, как впервые увидел тебя — у меня тогда сердце остановилось, а потом забилось так быстро, что я даже испугался. И знаешь? Оно до сих пор так же бьётся, когда ты рядом. Я думаю о тебе каждую минуту. Когда просыпаюсь — ты первая в моих мыслях. Когда ложусь спать — ты последняя, о ком я думаю. Даже во сне ты снишься мне, такая красивая, смешная, моя дуреха любимая! За эти полгода мы столько всего прошли вместе. Были и смешные моменты, когда мы дурачились, и немножко грустные, когда мы ссорились. Но знаешь, даже в те дни, когда мы ругались, я всё равно любил тебя сильнее прежнего. Ты изменила мою жизнь, Кирочка. Раньше я был просто мальчишкой, а теперь я чувствую себя рыцарем, у которого есть своя королева. Ты научила меня быть лучше, добрее, внимательнее. Ты самая красивая — твои глаза сияют как звёзды, твоя улыбка согревает меня в любую погоду. Ты самая добрая, самая заботливая, самая родная. И знаешь что? Мне кроме тебя никто на свете не нужен. Совсем никто! Все остальные — просто никто, пустое место. Только ты, моя Кирочка, моя госпожа, моя королева! Ты одна такая особенная, и я хочу быть только с тобой. Я не могу представить свою жизнь без тебя. Ты стала моим счастьем, моим смыслом, моей маленькой вселенной. Каждый день с тобой — это подарок. Я так рад, что судьба свела нас, и я обещаю, что буду любить тебя ещё сильнее. Ты моя самая лучшая девочка, моя царица, моя Кирочка. Просто знай: я люблю тебя больше жизни! Ты одна-единственная, и никто никогда не займёт твоё место!';
+            
+            textEl.textContent = '';
+            textEl.classList.remove('visible', 'blink');
+            
+            let charIndex = 0;
+            function typeFinal() {
+                if (charIndex < text.length) {
+                    textEl.textContent += text[charIndex];
+                    charIndex++;
+                    setTimeout(typeFinal, 20);
+                } else {
+                    textEl.classList.add('visible');
+                    setTimeout(() => {
+                        textEl.classList.add('blink');
+                        document.getElementById('blurOverlay').classList.remove('show');
+                    }, 300);
+                }
+            }
+            typeFinal();
         }
 
         document.addEventListener('mousemove', (e) => {
@@ -1143,4 +1430,4 @@
         });
     </script>
 </body>
-</html>
+    </html>
