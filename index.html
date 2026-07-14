@@ -25,8 +25,10 @@
             transition: background-color 0.8s ease;
             overflow: hidden;
             position: relative;
+            background: #1a1a2e;
         }
 
+        /* Главное меню */
         .menu-screen {
             display: flex;
             flex-direction: column;
@@ -37,7 +39,7 @@
         }
 
         .main-title {
-            font-size: 4rem;
+            font-size: clamp(2rem, 6vw, 4rem);
             color: #ff69b4;
             text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
             animation: glow 2s ease-in-out infinite alternate;
@@ -116,6 +118,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Выбор кота */
         .cat-selection {
             display: none;
             position: fixed;
@@ -127,17 +130,17 @@
             align-items: center;
             gap: 50px;
             z-index: 20;
-            background: rgba(255, 105, 180, 0.9);
+            background: rgba(255, 105, 180, 0.95);
             flex-direction: column;
             padding: 20px;
         }
 
         .cat-selection.sad-mode {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
         }
 
         .cat-selection .selection-title {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             color: #ff69b4;
             text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
             font-family: 'Spore Font RUS', cursive;
@@ -179,6 +182,26 @@
             object-fit: cover;
         }
 
+        /* Фоновый блюр */
+        .blur-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.5);
+            z-index: 25;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .blur-overlay.show {
+            display: flex;
+        }
+
+        /* Основной контент */
         .content-screen {
             display: none;
             position: fixed;
@@ -220,7 +243,6 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             word-wrap: break-word;
-            font-family: 'Arabella Font Family', cursive;
         }
 
         .main-text.visible {
@@ -239,11 +261,36 @@
             font-size: clamp(1.2rem, 4vw, 3.5rem);
         }
 
+        /* Кнопка выхода */
+        .exit-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.2rem;
+            font-family: 'Spore Font RUS', cursive;
+            cursor: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: none;
+        }
+
+        .exit-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+
         .top-btn {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            padding: 15px 30px;
+            top: 20px;
+            right: 20px;
+            padding: 12px 25px;
             border-radius: 50px;
             border: none;
             background: rgba(255,255,255,0.2);
@@ -263,6 +310,7 @@
             background: rgba(255,255,255,0.3);
         }
 
+        /* Поцелуй */
         .kiss-overlay {
             display: none;
             position: fixed;
@@ -270,8 +318,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
             z-index: 60;
             justify-content: center;
             align-items: center;
@@ -302,6 +350,7 @@
             opacity: 1;
         }
 
+        /* Кнопки веселья */
         .fun-options {
             display: none;
             position: fixed;
@@ -333,6 +382,7 @@
             background: rgba(255,255,255,0.3);
         }
 
+        /* Вопросы */
         .question-modal {
             display: none;
             position: fixed;
@@ -341,7 +391,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(20px);
             z-index: 70;
             justify-content: center;
             align-items: center;
@@ -384,6 +434,20 @@
             background: rgba(255,255,255,0.2);
         }
 
+        .wrong-answer {
+            color: red;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            text-shadow: 0 0 30px rgba(255,0,0,0.5);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-20px); }
+            75% { transform: translateX(20px); }
+        }
+
+        /* Обратный отсчет */
         .countdown {
             display: none;
             position: fixed;
@@ -397,6 +461,7 @@
             font-family: 'Spore Font RUS', cursive;
         }
 
+        /* Эмодзи дождь */
         .emoji-rain {
             position: fixed;
             top: 0;
@@ -421,6 +486,7 @@
             transform: scale(1.3) rotate(10deg);
         }
 
+        /* Музыкальный плеер */
         .music-player {
             position: fixed;
             bottom: 30px;
@@ -448,15 +514,17 @@
             color: white;
         }
 
-        .toggle-btn {
+        /* Центральная кнопка для грустного режима */
+        .center-btn {
+            display: none;
             position: fixed;
-            bottom: 100px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 40px;
+            transform: translate(-50%, -50%);
+            padding: 25px 60px;
             border-radius: 50px;
             border: none;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-family: 'Spore Font RUS', cursive;
             background: rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
@@ -464,28 +532,15 @@
             cursor: none;
             transition: all 0.3s ease;
             border: 2px solid rgba(255,255,255,0.3);
-            display: none;
             z-index: 40;
         }
 
-        .toggle-btn:hover {
-            transform: scale(1.05);
+        .center-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
             background: rgba(255,255,255,0.3);
         }
 
-        .wrong-answer {
-            color: red;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            text-shadow: 0 0 30px rgba(255,0,0,0.5);
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-20px); }
-            75% { transform: translateX(20px); }
-        }
-
+        /* Кастомный курсор */
         .custom-cursor {
             position: fixed;
             pointer-events: none;
@@ -508,20 +563,16 @@
             .mode-btn { width: 150px; height: 150px; font-size: 1.2rem; }
             .cat-options { flex-direction: column; gap: 30px; align-items: center; }
             .cat-option { width: 200px; height: 200px; }
-            .main-title { font-size: 2rem; }
             .content-screen { padding: 80px 20px 20px 20px; }
             .main-text-wrapper { width: 95%; padding: 15px; }
             .kiss-overlay img { width: 200px; }
-            .top-btn { top: 15px; right: 15px; padding: 10px 20px; font-size: 1rem; }
             .question-modal .options { gap: 20px; flex-direction: column; align-items: center; }
             .question-modal .option-btn { padding: 15px 40px; }
             .music-player { bottom: 20px; right: 20px; }
             .music-player select { max-width: 150px; font-size: 0.8rem; }
-            .toggle-btn { bottom: 80px; padding: 12px 30px; font-size: 1.2rem; }
-            .fun-options { bottom: 60px; }
-            .fun-btn { padding: 12px 30px; font-size: 1.2rem; }
             .countdown { font-size: 5rem; }
             .custom-cursor { width: 30px; height: 30px; }
+            .exit-btn, .top-btn { padding: 8px 15px; font-size: 0.8rem; }
         }
 
         @media (max-width: 480px) {
@@ -531,27 +582,7 @@
             .cat-selection .selection-title { font-size: 2rem; }
             .main-text-wrapper { padding: 10px; }
             .main-text { font-size: clamp(0.9rem, 3vw, 1.8rem); }
-            .top-btn { top: 10px; right: 10px; padding: 8px 15px; font-size: 0.8rem; }
             .kiss-text { font-size: clamp(0.8rem, 2.5vw, 1.5rem); }
-        }
-
-        /* Стили для скролла */
-        .main-text-wrapper::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .main-text-wrapper::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-        }
-
-        .main-text-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-        }
-
-        .main-text-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.5);
         }
     </style>
 </head>
@@ -565,17 +596,13 @@
         </div>
     </div>
 
+    <!-- Блюр оверлей -->
+    <div class="blur-overlay" id="blurOverlay"></div>
+
     <!-- Выбор кота -->
     <div class="cat-selection" id="catSelection">
-        <h2 class="selection-title">Выбери котенка</h2>
-        <div class="cat-options">
-            <div class="cat-option" onclick="selectCat(1)">
-                <img src="https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif" alt="Котенок 1">
-            </div>
-            <div class="cat-option" onclick="selectCat(2)">
-                <img src="https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif" alt="Котенок 2">
-            </div>
-        </div>
+        <h2 class="selection-title" id="selectionTitle">Выбери котенка</h2>
+        <div class="cat-options" id="catOptions"></div>
     </div>
 
     <!-- Основной контент -->
@@ -584,6 +611,9 @@
             <div class="main-text" id="mainText"></div>
         </div>
     </div>
+
+    <!-- Кнопка выхода -->
+    <button class="exit-btn" id="exitBtn" onclick="exitMode()">🚪 Выйти</button>
 
     <!-- Кнопка сверху -->
     <button class="top-btn" id="topBtn" onclick="showKiss()">💋 Поднять настроение</button>
@@ -625,11 +655,16 @@
             <option value="anonymous">Anonymous Ember - Ineedweed</option>
             <option value="hypnoses">Гипнозы (Hypnoses)</option>
             <option value="malbek">МАЛЬБЭК (MALBEK)</option>
+            <option value="say">Дай мне сказать</option>
+            <option value="pishem">Пишешь мне пока</option>
+            <option value="tysyachi">Тысячи этажей</option>
+            <option value="gnoy">Гной</option>
+            <option value="stvol">Ствол 2</option>
         </select>
     </div>
 
-    <!-- Кнопка вкл/выкл -->
-    <button class="toggle-btn" id="toggleBtn" onclick="toggleMusic()">🎵 Включить музыку</button>
+    <!-- Центральная кнопка для грустного режима -->
+    <button class="center-btn" id="centerBtn" onclick="toggleSadMode()">🎵 Включить</button>
 
     <!-- Кастомный курсор -->
     <div class="custom-cursor" id="customCursor"></div>
@@ -641,13 +676,12 @@
         let isSadMode = false;
         let musicOn = false;
         let questionStage = 0;
-        let wrongCount = 0;
+        let isSadActive = false;
         let emojis = [];
         let isDragging = false;
         let dragItem = null;
         let offsetX, offsetY;
 
-        // Звук поцелуя
         const kissSound = new Audio('https://www.myinstants.com/media/sounds/kissing-sound.mp3');
 
         function selectMode(mode) {
@@ -656,23 +690,53 @@
             const selection = document.getElementById('catSelection');
             selection.style.display = 'flex';
             
+            const title = document.getElementById('selectionTitle');
+            const options = document.getElementById('catOptions');
+            options.innerHTML = '';
+            
             if (mode === 'happy') {
                 selection.className = 'cat-selection';
                 isHappyMode = true;
                 isSadMode = false;
+                title.textContent = 'Выбери веселого котенка 🐱';
+                
+                const cat1 = document.createElement('div');
+                cat1.className = 'cat-option';
+                cat1.innerHTML = '<img src="https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif" alt="Веселый кот 1">';
+                cat1.onclick = () => selectCat(1);
+                
+                const cat2 = document.createElement('div');
+                cat2.className = 'cat-option';
+                cat2.innerHTML = '<img src="https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif" alt="Веселый кот 2">';
+                cat2.onclick = () => selectCat(2);
+                
+                options.appendChild(cat1);
+                options.appendChild(cat2);
             } else {
                 selection.className = 'cat-selection sad-mode';
                 isHappyMode = false;
                 isSadMode = true;
+                title.textContent = 'Выбери грустного котенка 😢';
+                
+                const cat1 = document.createElement('div');
+                cat1.className = 'cat-option';
+                cat1.innerHTML = '<img src="https://media.tenor.com/mEfWM8qHU8AAAAAM/sad-cry.gif" alt="Грустный кот 1">';
+                cat1.onclick = () => selectCat(1);
+                
+                const cat2 = document.createElement('div');
+                cat2.className = 'cat-option';
+                cat2.innerHTML = '<img src="https://media.tenor.com/0JN3gEH77lMAAAAC/cat-cry.gif" alt="Грустный кот 2">';
+                cat2.onclick = () => selectCat(2);
+                
+                options.appendChild(cat1);
+                options.appendChild(cat2);
             }
         }
 
         function selectCat(cat) {
             selectedCat = cat;
-            const selection = document.getElementById('catSelection');
-            selection.style.display = 'none';
+            document.getElementById('catSelection').style.display = 'none';
             
-            // Установка курсора
             const cursor = document.getElementById('customCursor');
             const cursorImg = document.createElement('img');
             if (isHappyMode) {
@@ -688,28 +752,21 @@
             cursor.appendChild(cursorImg);
             cursor.style.display = 'block';
             
-            // Показ контента
+            showTextWithBlur();
+        }
+
+        function showTextWithBlur() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
+            
             const screen = document.getElementById('contentScreen');
             screen.style.display = 'block';
             screen.className = 'content-screen ' + (isHappyMode ? 'happy' : 'sad');
             
-            // Показ текста с эффектом печати
-            showMainText();
-            
-            // Показ кнопок
+            document.getElementById('exitBtn').style.display = 'block';
             document.getElementById('topBtn').style.display = 'block';
             
-            if (isHappyMode) {
-                document.getElementById('funOptions').style.display = 'flex';
-                document.getElementById('toggleBtn').style.display = 'none';
-                document.getElementById('musicPlayer').style.display = 'none';
-            } else {
-                document.getElementById('funOptions').style.display = 'none';
-                document.getElementById('toggleBtn').style.display = 'block';
-                document.getElementById('musicPlayer').style.display = 'block';
-                // Грустные эмодзи
-                startRain('sad');
-            }
+            showMainText();
         }
 
         function showMainText() {
@@ -728,7 +785,6 @@
             textEl.classList.add('visible');
             
             if (isSadMode) {
-                // Для грустного режима - по предложениям
                 const sentences = text.split('. ');
                 let index = 0;
                 
@@ -738,8 +794,8 @@
                             textEl.textContent = '';
                             textEl.classList.remove('visible');
                             setTimeout(() => {
-                                // После всего текста - отсчет
-                                startCountdown();
+                                document.getElementById('blurOverlay').classList.remove('show');
+                                startSadCountdown();
                             }, 500);
                         }, 2000);
                         return;
@@ -767,7 +823,6 @@
                 }
                 typeSentence();
             } else {
-                // Для веселого режима - обычный текст
                 let charIndex = 0;
                 function typeHappy() {
                     if (charIndex < text.length) {
@@ -779,7 +834,7 @@
                             textEl.textContent = '';
                             textEl.classList.remove('visible');
                             setTimeout(() => {
-                                // Показ кнопки веселья
+                                document.getElementById('blurOverlay').classList.remove('show');
                                 document.getElementById('funOptions').style.display = 'flex';
                             }, 500);
                         }, 3000);
@@ -787,6 +842,78 @@
                 }
                 typeHappy();
             }
+        }
+
+        function startSadCountdown() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
+            
+            const countdownEl = document.getElementById('countdown');
+            countdownEl.style.display = 'block';
+            let count = 3;
+            
+            function updateCount() {
+                countdownEl.textContent = count;
+                if (count <= 0) {
+                    countdownEl.style.display = 'none';
+                    blurOverlay.classList.remove('show');
+                    document.getElementById('centerBtn').style.display = 'block';
+                    document.getElementById('musicPlayer').style.display = 'block';
+                    return;
+                }
+                count--;
+                setTimeout(updateCount, 1000);
+            }
+            updateCount();
+        }
+
+        function toggleSadMode() {
+            const btn = document.getElementById('centerBtn');
+            if (!isSadActive) {
+                isSadActive = true;
+                btn.textContent = '🎵 Выключить';
+                startSadRain();
+                playMusic('barbariki');
+            } else {
+                isSadActive = false;
+                btn.textContent = '🎵 Включить';
+                document.getElementById('emojiRain').innerHTML = '';
+                // Останавливаем музыку
+                console.log('Music stopped');
+            }
+        }
+
+        function startSadRain() {
+            const container = document.getElementById('emojiRain');
+            container.innerHTML = '';
+            const emojisList = ['💀', '🌹', '😢', '💔', '😭', '🥀', '😿', '🖤', '😞', '💧', '😔', '🌑', '😰', '💫', '😩', '🌙', '😥', '⭐', '😪', '🌧️'];
+            
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji-item';
+                emoji.textContent = emojisList[i % emojisList.length];
+                emoji.style.left = Math.random() * 90 + '%';
+                emoji.style.top = '-50px';
+                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
+                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
+                emoji.style.animationDelay = Math.random() * 5 + 's';
+                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                emoji.addEventListener('mousedown', startDrag);
+                emoji.addEventListener('touchstart', startDragTouch);
+                
+                container.appendChild(emoji);
+                emojis.push(emoji);
+            }
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes rain {
+                    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+                }
+            `;
+            document.head.appendChild(style);
         }
 
         function showKiss() {
@@ -808,6 +935,8 @@
 
         function startFun() {
             document.getElementById('funOptions').style.display = 'none';
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
             showQuestion('Ты готова милая моя?', ['Да', 'Нет']);
             questionStage = 0;
         }
@@ -852,12 +981,16 @@
                     }, 1500);
                 } else {
                     modal.style.display = 'none';
-                    startCountdown();
+                    document.getElementById('blurOverlay').classList.remove('show');
+                    startHappyCountdown();
                 }
             }
         }
 
-        function startCountdown() {
+        function startHappyCountdown() {
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.classList.add('show');
+            
             const countdownEl = document.getElementById('countdown');
             countdownEl.style.display = 'block';
             let count = 3;
@@ -866,13 +999,8 @@
                 countdownEl.textContent = count;
                 if (count <= 0) {
                     countdownEl.style.display = 'none';
-                    if (isHappyMode) {
-                        startHappyRain();
-                    } else {
-                        // Для грустного режима после отсчета ничего не происходит
-                        document.getElementById('toggleBtn').style.display = 'block';
-                        document.getElementById('musicPlayer').style.display = 'block';
-                    }
+                    blurOverlay.classList.remove('show');
+                    startHappyRain();
                     return;
                 }
                 count--;
@@ -897,7 +1025,6 @@
                 emoji.style.animationDelay = Math.random() * 5 + 's';
                 emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
                 
-                // Возможность перетаскивать
                 emoji.addEventListener('mousedown', startDrag);
                 emoji.addEventListener('touchstart', startDragTouch);
                 
@@ -905,7 +1032,6 @@
                 emojis.push(emoji);
             }
             
-            // Добавляем стили для анимации дождя
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes rain {
@@ -915,7 +1041,6 @@
             `;
             document.head.appendChild(style);
             
-            // Воспроизводим песню
             playMusic('barbariki');
         }
 
@@ -976,57 +1101,35 @@
             document.removeEventListener('touchend', stopDragTouch);
         }
 
-        function startRain(type) {
-            const container = document.getElementById('emojiRain');
-            container.innerHTML = '';
-            const emojisList = type === 'sad' ? 
-                ['💀', '🌹', '😢', '💔', '😭', '🥀', '😿', '🖤', '😞', '💧', '😔', '🌑', '😰', '💫', '😩', '🌙', '😥', '⭐', '😪', '🌧️'] :
-                ['❤️', '🌸', '😊', '💖', '🌺', '😍', '💕', '🌷', '✨', '💗', '🌹', '💝', '🌻', '💞', '🌼', '💓', '🌿', '💘', '🌺', '😄'];
-            
-            for (let i = 0; i < 20; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'emoji-item';
-                emoji.textContent = emojisList[i % emojisList.length];
-                emoji.style.left = Math.random() * 90 + '%';
-                emoji.style.top = '-50px';
-                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
-                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
-                emoji.style.animationDelay = Math.random() * 5 + 's';
-                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                emoji.addEventListener('mousedown', startDrag);
-                emoji.addEventListener('touchstart', startDragTouch);
-                
-                container.appendChild(emoji);
-                emojis.push(emoji);
-            }
-        }
-
         function playMusic(song) {
-            // Здесь нужно добавить реальное воспроизведение музыки через YouTube API или аудио файлы
-            // Для демонстрации просто показываем уведомление
             const songName = song || document.getElementById('musicSelect').value;
             console.log('Playing music:', songName);
-            alert('🎵 Воспроизведение музыки: ' + songName);
+            // Здесь нужно добавить реальное воспроизведение
         }
 
-        function toggleMusic() {
-            musicOn = !musicOn;
-            const btn = document.getElementById('toggleBtn');
-            if (musicOn) {
-                btn.textContent = '🎵 Выключить музыку';
-                document.getElementById('musicPlayer').style.display = 'block';
-                // Включаем музыку
-                playMusic();
-            } else {
-                btn.textContent = '🎵 Включить музыку';
-                document.getElementById('musicPlayer').style.display = 'none';
-                // Останавливаем музыку
-                console.log('Music stopped');
-            }
+        function exitMode() {
+            // Сброс всех элементов
+            document.getElementById('contentScreen').style.display = 'none';
+            document.getElementById('exitBtn').style.display = 'none';
+            document.getElementById('topBtn').style.display = 'none';
+            document.getElementById('funOptions').style.display = 'none';
+            document.getElementById('centerBtn').style.display = 'none';
+            document.getElementById('musicPlayer').style.display = 'none';
+            document.getElementById('blurOverlay').classList.remove('show');
+            document.getElementById('emojiRain').innerHTML = '';
+            document.getElementById('customCursor').style.display = 'none';
+            document.getElementById('countdown').style.display = 'none';
+            document.getElementById('questionModal').style.display = 'none';
+            document.getElementById('kissOverlay').style.display = 'none';
+            
+            isHappyMode = false;
+            isSadMode = false;
+            isSadActive = false;
+            musicOn = false;
+            
+            document.getElementById('menuScreen').style.display = 'flex';
         }
 
-        // Обработка движения курсора
         document.addEventListener('mousemove', (e) => {
             const cursor = document.getElementById('customCursor');
             if (cursor.style.display !== 'none') {
@@ -1035,7 +1138,6 @@
             }
         });
 
-        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('customCursor').style.display = 'none';
         });
