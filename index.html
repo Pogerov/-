@@ -3,566 +3,1042 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Для моей Кирочки ❤</title>
+    <title>Для Кирочки</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Bad+Script&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Spore+Font+RUS&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Arabella+Font+Family&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Hasard+Pixelise&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
 
         body {
-            width: 100vw;
             height: 100vh;
-            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Spore Font RUS', cursive;
+            transition: background-color 0.8s ease;
             overflow: hidden;
-            font-family: 'Press Start 2P', cursive;
-            cursor: default;
+            position: relative;
+        }
+
+        .menu-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .main-title {
+            font-size: 4rem;
+            color: #ff69b4;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            font-family: 'Spore Font RUS', cursive;
+            text-align: center;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff69b4; }
+            to { text-shadow: 0 0 30px #ff1493, 0 0 60px #ff1493; }
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 100px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: none;
+            font-size: 2rem;
+            font-family: 'Spore Font RUS', cursive;
+            color: white;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: none;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .mode-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .mode-btn:active {
+            transform: scale(0.9);
+        }
+
+        .happy-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff1493);
+            animation: pulse-happy 2s ease-in-out infinite;
+        }
+
+        .sad-btn {
+            background: linear-gradient(135deg, #4a4a4a, #1a1a1a);
+            animation: pulse-sad 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-happy {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7); }
+            50% { box-shadow: 0 0 0 30px rgba(255, 20, 147, 0); }
+        }
+
+        @keyframes pulse-sad {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
+            50% { box-shadow: 0 0 0 30px rgba(0, 0, 0, 0); }
+        }
+
+        .mode-btn::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cat-selection {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            z-index: 20;
+            background: rgba(255, 105, 180, 0.9);
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cat-selection.sad-mode {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .cat-selection .selection-title {
+            font-size: 3.5rem;
+            color: #ff69b4;
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+            font-family: 'Spore Font RUS', cursive;
+            text-align: center;
+        }
+
+        .cat-selection.sad-mode .selection-title {
+            color: #888;
+            text-shadow: 0 0 30px rgba(100, 100, 100, 0.8);
+        }
+
+        .cat-options {
+            display: flex;
+            gap: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cat-option {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: none;
+            border: 4px solid white;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .cat-option:hover {
+            transform: scale(1.1) rotate(-2deg);
+            border-color: #ff69b4;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.5);
+        }
+
+        .cat-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 30;
+            padding: 80px 40px 40px 40px;
+            overflow-y: auto;
+        }
+
+        .content-screen.happy {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+        }
+
+        .content-screen.sad {
+            background: #0a0a0a;
+        }
+
+        .main-text-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1200px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .main-text {
+            font-size: clamp(1.2rem, 4vw, 3.5rem);
+            line-height: 1.6;
+            color: white;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            word-wrap: break-word;
+            font-family: 'Arabella Font Family', cursive;
+        }
+
+        .main-text.visible {
+            opacity: 1;
+        }
+
+        .main-text.sad-text {
+            font-family: 'Hasard Pixelise', cursive;
+            color: red;
+            font-size: clamp(1rem, 3vw, 2.5rem);
+        }
+
+        .main-text.happy-text {
+            font-family: 'Arabella Font Family', cursive;
+            color: white;
+            font-size: clamp(1.2rem, 4vw, 3.5rem);
+        }
+
+        .top-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.2rem;
+            font-family: 'Spore Font RUS', cursive;
+            cursor: none;
+            transition: all 0.3s ease;
+            z-index: 50;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: none;
+        }
+
+        .top-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .kiss-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            z-index: 60;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .kiss-overlay img {
+            width: 400px;
+            max-width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .kiss-text {
+            color: red;
+            font-size: clamp(1rem, 3vw, 3rem);
+            margin-top: 30px;
+            max-width: 80%;
+            text-align: center;
+            font-family: 'Spore Font RUS', cursive;
+            opacity: 0;
+            transition: opacity 1s ease;
+            line-height: 1.6;
+        }
+
+        .kiss-text.visible {
+            opacity: 1;
+        }
+
+        .fun-options {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 30px;
+            z-index: 40;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fun-btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.5rem;
+            font-family: 'Spore Font RUS', cursive;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .fun-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .question-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 70;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .question-modal .question-text {
+            font-size: clamp(1.5rem, 5vw, 3.5rem);
+            color: white;
+            font-family: 'Spore Font RUS', cursive;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
+            text-align: center;
+        }
+
+        .question-modal .options {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .question-modal .option-btn {
+            padding: 20px 60px;
+            border-radius: 50px;
+            border: none;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-family: 'Spore Font RUS', cursive;
+            cursor: none;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .question-modal .option-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .countdown {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            color: white;
+            z-index: 80;
+            text-shadow: 0 0 60px rgba(255,255,255,0.5);
+            font-family: 'Spore Font RUS', cursive;
+        }
+
+        .emoji-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 35;
+            overflow: hidden;
+        }
+
+        .emoji-item {
+            position: absolute;
+            font-size: 3rem;
             user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            pointer-events: auto;
+            cursor: none;
+            transition: transform 0.1s;
         }
 
-        #heartCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; filter: blur(30px); transition: filter 1.5s ease; pointer-events: none;
-        }
-        #heartCanvas.unblurred { filter: blur(0px); }
-
-        #overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; pointer-events: none;
+        .emoji-item:hover {
+            transform: scale(1.3) rotate(10deg);
         }
 
-        .question-box {
-            display: none; flex-direction: column; align-items: center; gap: 40px;
-            pointer-events: auto; animation: fadeIn 0.5s ease;
-        }
-        .question-box.active { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 45;
+            display: none;
         }
 
-        .question-text {
-            color: #fff; font-size: 1.8rem; text-align: center;
-            text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493; padding: 20px; line-height: 1.6;
+        .music-player select {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            font-size: 1rem;
+            font-family: 'Spore Font RUS', cursive;
+            cursor: none;
+            outline: none;
+            max-width: 200px;
         }
 
-        .buttons-row { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
-
-        .btn {
-            padding: 18px 50px; font-size: 1.4rem; font-family: 'Press Start 2P', cursive;
-            border: none; border-radius: 25px; cursor: pointer; transition: all 0.2s ease;
-            color: #fff; letter-spacing: 2px; position: relative; z-index: 100;
+        .music-player select option {
+            background: #333;
+            color: white;
         }
 
-        .btn-yes {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            box-shadow: 0 0 30px rgba(0,255,136,0.6), 0 0 60px rgba(0,204,102,0.3);
-        }
-        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(0,255,136,0.9), 0 0 90px rgba(0,204,102,0.5); }
-
-        .btn-no {
-            background: linear-gradient(135deg, #ff4444, #cc0000);
-            box-shadow: 0 0 30px rgba(255,68,68,0.6), 0 0 60px rgba(204,0,0,0.3);
-            transition: all 0.08s ease;
-        }
-
-        .btn-only-yes {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            box-shadow: 0 0 30px rgba(0,255,136,0.6), 0 0 60px rgba(0,204,102,0.3);
-            font-size: 1.6rem; padding: 22px 60px;
-        }
-
-        .btn-huge-yes {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            box-shadow: 0 0 40px rgba(0,255,136,0.8), 0 0 80px rgba(0,204,102,0.5);
-            font-size: 2.2rem; padding: 30px 80px; border-radius: 35px;
-        }
-        .btn-huge-yes:hover { transform: scale(1.15); box-shadow: 0 0 60px rgba(0,255,136,1), 0 0 120px rgba(0,204,102,0.7); }
-        .btn-only-yes:hover { transform: scale(1.1); box-shadow: 0 0 50px rgba(0,255,136,0.9), 0 0 90px rgba(0,204,102,0.5); }
-
-        .love-text {
-            display: none; color: #ff69b4; font-size: 1.6rem; text-align: center;
-            text-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4, 0 0 90px #ff1493;
-            animation: pulseText 1s ease infinite; pointer-events: auto; line-height: 1.6; max-width: 90vw;
-        }
-        .love-text.active { display: block; }
-
-        @keyframes pulseText {
-            0%,100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+        .toggle-btn {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.5rem;
+            font-family: 'Spore Font RUS', cursive;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: none;
+            z-index: 40;
         }
 
-        #finalHeart {
-            display: none; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); z-index: 20; cursor: pointer;
-            pointer-events: auto; animation: floatHeart 3s ease-in-out infinite;
-        }
-        #finalHeart.active { display: block; }
-
-        @keyframes floatHeart {
-            0%,100% { transform: translate(-50%, -50%) translateY(0); }
-            50% { transform: translate(-50%, -50%) translateY(-12px); }
+        .toggle-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.3);
         }
 
-        #finalHeart svg {
-            width: 350px; height: 350px;
-            filter: drop-shadow(0 0 20px rgba(255,105,180,0.5)) drop-shadow(0 0 40px rgba(255,20,147,0.3));
-            animation: softNeon 2s ease-in-out infinite;
+        .wrong-answer {
+            color: red;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            text-shadow: 0 0 30px rgba(255,0,0,0.5);
+            animation: shake 0.5s ease;
         }
 
-        @keyframes softNeon {
-            0%,100% { filter: drop-shadow(0 0 20px rgba(255,105,180,0.5)) drop-shadow(0 0 40px rgba(255,20,147,0.3)); }
-            50% { filter: drop-shadow(0 0 35px rgba(255,105,180,0.7)) drop-shadow(0 0 60px rgba(255,20,147,0.4)); }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-20px); }
+            75% { transform: translateX(20px); }
         }
 
-        .heart-inner-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #d4a0b0; font-size: 0.5rem; text-align: center; pointer-events: none;
-            line-height: 2; width: 240px; z-index: 21;
-            text-shadow: 0 0 8px rgba(255,105,180,0.6); letter-spacing: 0.5px;
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 40px;
+            height: 40px;
+            transform: translate(-50%, -50%);
+            transition: all 0.05s ease;
         }
 
-        .top-tab {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 200;
-            background: rgba(255,105,180,0.2); border: 1px solid rgba(255,105,180,0.4);
-            border-top: none; border-radius: 0 0 15px 15px; padding: 10px 25px;
-            color: #ffb6d0; font-size: 0.6rem; cursor: pointer; pointer-events: auto;
-            display: none; text-shadow: 0 0 8px rgba(255,105,180,0.5);
-            transition: all 0.3s; backdrop-filter: blur(5px);
-        }
-        .top-tab:hover { background: rgba(255,105,180,0.4); }
-        .top-tab.visible { display: block; }
-
-        .graph-card {
-            position: fixed; z-index: 30; background: rgba(15, 15, 20, 0.85);
-            border: 1.5px solid rgba(255,105,180,0.5); border-radius: 18px;
-            padding: 22px 32px; color: #e8a0b8; font-size: 1rem; text-align: center;
-            box-shadow: 0 0 20px rgba(255,105,180,0.2); pointer-events: none;
-            animation: graphFloat 6s ease-out forwards; backdrop-filter: blur(8px); letter-spacing: 0.3px;
+        .custom-cursor img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
-        @keyframes graphFloat {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            30% { opacity: 1; transform: translate(calc(-50% + var(--driftX)*0.3), calc(-50% + var(--driftY)*0.3)) scale(1); }
-            60% { opacity: 0.8; transform: translate(calc(-50% + var(--driftX)*0.7), calc(-50% + var(--driftY)*0.7)) scale(0.9); }
-            100% { opacity: 0; transform: translate(calc(-50% + var(--driftX)), calc(-50% + var(--driftY))) scale(0.6); }
+        @media (max-width: 768px) {
+            .buttons-container { gap: 30px; flex-direction: column; align-items: center; }
+            .mode-btn { width: 150px; height: 150px; font-size: 1.2rem; }
+            .cat-options { flex-direction: column; gap: 30px; align-items: center; }
+            .cat-option { width: 200px; height: 200px; }
+            .main-title { font-size: 2rem; }
+            .content-screen { padding: 80px 20px 20px 20px; }
+            .main-text-wrapper { width: 95%; padding: 15px; }
+            .kiss-overlay img { width: 200px; }
+            .top-btn { top: 15px; right: 15px; padding: 10px 20px; font-size: 1rem; }
+            .question-modal .options { gap: 20px; flex-direction: column; align-items: center; }
+            .question-modal .option-btn { padding: 15px 40px; }
+            .music-player { bottom: 20px; right: 20px; }
+            .music-player select { max-width: 150px; font-size: 0.8rem; }
+            .toggle-btn { bottom: 80px; padding: 12px 30px; font-size: 1.2rem; }
+            .fun-options { bottom: 60px; }
+            .fun-btn { padding: 12px 30px; font-size: 1.2rem; }
+            .countdown { font-size: 5rem; }
+            .custom-cursor { width: 30px; height: 30px; }
         }
 
-        .heartbeat-effect {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 180px; height: 180px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,105,180,0.6), transparent);
-            z-index: 25; pointer-events: none; animation: heartbeatBoom 1s ease-out forwards;
+        @media (max-width: 480px) {
+            .main-title { font-size: 1.5rem; }
+            .mode-btn { width: 120px; height: 120px; font-size: 1rem; }
+            .cat-option { width: 150px; height: 150px; }
+            .cat-selection .selection-title { font-size: 2rem; }
+            .main-text-wrapper { padding: 10px; }
+            .main-text { font-size: clamp(0.9rem, 3vw, 1.8rem); }
+            .top-btn { top: 10px; right: 10px; padding: 8px 15px; font-size: 0.8rem; }
+            .kiss-text { font-size: clamp(0.8rem, 2.5vw, 1.5rem); }
         }
 
-        @keyframes heartbeatBoom {
-            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
-            40% { transform: translate(-50%, -50%) scale(2.5); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+        /* Стили для скролла */
+        .main-text-wrapper::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .firefly {
-            position: fixed; pointer-events: none; z-index: 22;
-            width: 5px; height: 5px; border-radius: 50%; background: #ffb6d0;
-            box-shadow: 0 0 6px 2px rgba(255,182,208,0.8), 0 0 12px 4px rgba(255,105,180,0.4);
-            animation: fireflyFloat var(--duration) ease-out forwards;
+        .main-text-wrapper::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
         }
 
-        @keyframes fireflyFloat {
-            0% { opacity: 0; transform: translate(0,0) scale(0); }
-            20% { opacity: 1; transform: translate(calc(var(--dx)*0.2), calc(var(--dy)*0.2)) scale(1.2); }
-            50% { opacity: 0.8; transform: translate(calc(var(--dx)*0.5), calc(var(--dy)*0.5)) scale(0.8); }
-            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+        .main-text-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
         }
 
-        #topPage {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 300; background: rgba(0,0,0,0.95); flex-direction: column;
-            align-items: center; justify-content: center; backdrop-filter: blur(20px);
-            overflow-y: auto; padding: 20px;
-        }
-        #topPage.active { display: flex; }
-
-        .podium { display: flex; align-items: flex-end; gap: 20px; margin: 20px 0; }
-        .podium-place { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-
-        .podium-bar {
-            width: 120px; border-radius: 10px 10px 0 0; display: flex;
-            align-items: center; justify-content: center; font-size: 1.5rem;
-            color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8);
-            transition: height 0.5s ease; position: relative; overflow: hidden;
-        }
-
-        .podium-bar.first { background: linear-gradient(180deg, #ffd700, #ffaa00); box-shadow: 0 0 30px rgba(255,215,0,0.6); height: 250px; animation: growFirst 2s ease-out; }
-        .podium-bar.second { background: linear-gradient(180deg, #c0c0c0, #888); box-shadow: 0 0 20px rgba(192,192,192,0.4); height: 180px; }
-        .podium-bar.third { background: linear-gradient(180deg, #cd7f32, #8b5a2b); box-shadow: 0 0 20px rgba(205,127,50,0.4); height: 140px; }
-
-        @keyframes growFirst { from { height: 0; } to { height: 250px; } }
-
-        .podium-label { color: #fff; font-size: 0.9rem; text-align: center; }
-        .podium-name { font-size: 1rem; color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.6); text-align: center; }
-        .podium-numbers { font-size: 0.7rem; color: rgba(255,255,255,0.8); text-align: center; }
-
-        .top-message {
-            color: #ffb6d0; font-family: 'Bad Script', cursive; font-size: 1.2rem;
-            text-align: center; max-width: 85vw; line-height: 1.9; margin-top: 20px;
-            opacity: 0; transition: opacity 0.5s; padding: 0 20px;
-        }
-        .top-message.visible { opacity: 1; }
-
-        .cursor-blink { display: inline-block; animation: blink 0.8s infinite; color: #ff69b4; font-size: 1.2rem; }
-        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-
-        .envelope { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 400; cursor: pointer; pointer-events: auto; display: none; }
-        .envelope.visible { display: block; }
-
-        .envelope-body {
-            width: 220px; height: 140px; background: linear-gradient(135deg, #ffb6d0, #ff80a8);
-            border-radius: 10px; position: relative; box-shadow: 0 0 20px rgba(255,105,180,0.4);
-            cursor: pointer; transition: transform 0.3s;
-        }
-        .envelope-body:hover { transform: scale(1.05); }
-
-        .envelope-flap {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #ffc0d5, #ff90b5); border-radius: 10px;
-            clip-path: polygon(0 0, 50% 50%, 100% 0); transform-origin: top;
-            transition: transform 0.8s ease; z-index: 2;
-        }
-        .envelope.open .envelope-flap { transform: rotateX(180deg); }
-
-        .envelope-seal {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 30px; height: 30px; background: #ff4080; border-radius: 50%; z-index: 3;
-            box-shadow: 0 0 10px rgba(255,64,128,0.5); font-size: 0.8rem;
-            display: flex; align-items: center; justify-content: center; color: #fff;
-        }
-
-        .letter-popup {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 260px; background: #fffef5; border-radius: 12px; padding: 30px 25px;
-            color: #c04060; font-family: 'Bad Script', cursive; font-size: 1rem; text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 500; cursor: pointer;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            line-height: 1.8; pointer-events: auto;
-        }
-        .letter-popup.visible { transform: translate(-50%, -50%) scale(1); }
-        .letter-popup.zoomed { transform: translate(-50%, -50%) scale(1.5); z-index: 600; }
-        .letter-popup::before { content: ''; position: absolute; top: -5px; left: 20px; width: 40px; height: 15px; background: #ff4080; border-radius: 3px; }
-
-        .back-btn {
-            position: fixed; top: 20px; left: 20px; z-index: 500; color: rgba(255,255,255,0.7);
-            font-size: 0.6rem; cursor: pointer; pointer-events: auto;
-            text-shadow: 0 0 10px rgba(255,105,180,0.5); transition: color 0.3s; display: none;
-        }
-        .back-btn:hover { color: #ff69b4; }
-        .back-btn.visible { display: block; }
-
-        .overlay-dark {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 450; display: none; pointer-events: auto; cursor: pointer;
-        }
-        .overlay-dark.visible { display: block; }
-
-        .music-btn {
-            position: fixed; bottom: 30px; right: 30px; z-index: 200; width: 50px; height: 50px;
-            border-radius: 50%; background: rgba(255,105,180,0.3); border: 1px solid rgba(255,105,180,0.5);
-            color: #fff; font-size: 1.2rem; cursor: pointer; pointer-events: auto;
-            transition: all 0.3s; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
-        }
-        .music-btn:hover { background: rgba(255,105,180,0.5); box-shadow: 0 0 20px rgba(255,105,180,0.5); }
-        .music-btn.playing { animation: musicPulse 1s ease-in-out infinite; }
-        @keyframes musicPulse { 0%,100% { box-shadow: 0 0 10px rgba(255,105,180,0.3); } 50% { box-shadow: 0 0 25px rgba(255,105,180,0.7); } }
-
-        .song-info {
-            position: fixed; bottom: 30px; left: 30px; z-index: 200;
-            color: rgba(255,255,255,0.9); font-size: 0.5rem; pointer-events: none;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5); line-height: 1.8;
-        }
-        .song-info .title { color: #ffb6d0; font-size: 0.6rem; }
-
-        .petal {
-            position: fixed; pointer-events: none; z-index: 15;
-            animation: petalFall var(--fallDuration) linear forwards; opacity: 0.8;
-        }
-        @keyframes petalFall {
-            0% { transform: translate(0, -10vh) rotate(0deg); opacity: 1; }
-            70% { opacity: 0.7; }
-            100% { transform: translate(var(--drift), 110vh) rotate(var(--spin)); opacity: 0; }
-        }
-
-        .love-particle {
-            position: fixed; pointer-events: none; z-index: 28;
-            animation: particleBurst 3s ease-out forwards; font-size: 1.5rem;
-        }
-        @keyframes particleBurst {
-            0% { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
+        .main-text-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
         }
     </style>
 </head>
 <body>
-
-    <canvas id="heartCanvas"></canvas>
-
-    <div class="music-btn" id="musicBtn" title="Включить музыку">🎵</div>
-    <div class="song-info">
-        <div class="title">🎧 Сейчас играет:</div>
-        Ivan Valeev — Novella
+    <!-- Главное меню -->
+    <div class="menu-screen" id="menuScreen">
+        <h1 class="main-title">Какой ты котенок сегодня?</h1>
+        <div class="buttons-container">
+            <button class="mode-btn happy-btn" onclick="selectMode('happy')">😊 Веселый</button>
+            <button class="mode-btn sad-btn" onclick="selectMode('sad')">😢 Грустный</button>
+        </div>
     </div>
 
-    <div id="overlay">
-        <div class="question-box active" id="q1">
-            <div class="question-text">Ты меня любишь? ❤</div>
-            <div class="buttons-row">
-                <button class="btn btn-yes" id="btnYes1">Да</button>
-                <button class="btn btn-no" id="btnNo1">Нет</button>
+    <!-- Выбор кота -->
+    <div class="cat-selection" id="catSelection">
+        <h2 class="selection-title">Выбери котенка</h2>
+        <div class="cat-options">
+            <div class="cat-option" onclick="selectCat(1)">
+                <img src="https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif" alt="Котенок 1">
             </div>
-        </div>
-        <div class="question-box" id="q2">
-            <div class="question-text">Ты меня ценишь? 💎</div>
-            <div class="buttons-row">
-                <button class="btn btn-only-yes" id="btnYes2">ДА ❤</button>
-            </div>
-        </div>
-        <div class="question-box" id="q3">
-            <div class="question-text">Ты меня простишь? 🥺</div>
-            <div class="buttons-row">
-                <button class="btn btn-huge-yes" id="btnYes3">ДА!</button>
-            </div>
-        </div>
-        <div class="love-text" id="loveText1">Я тебя тоже люблю солнышко мое ❤</div>
-        <div class="love-text" id="loveText2">Я тебя тоже ценю зайка ты моя 💕</div>
-        <div class="love-text" id="loveText3">Спасибо мой котеночек, прости правда пожалуйста ты моя самая любимая девочка и моя самая дорогая дуреха 💖</div>
-    </div>
-
-    <div id="finalHeart">
-        <svg viewBox="0 0 100 90">
-            <defs>
-                <radialGradient id="heartGrad" cx="50%" cy="40%" r="50%">
-                    <stop offset="0%" stop-color="#ff80b0" stop-opacity="0.9"/>
-                    <stop offset="60%" stop-color="#e85078" stop-opacity="0.8"/>
-                    <stop offset="100%" stop-color="#c04060" stop-opacity="0.6"/>
-                </radialGradient>
-                <filter id="softGlow">
-                    <feGaussianBlur stdDeviation="2" result="blur"/>
-                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-            </defs>
-            <path d="M50 82 C22 58, 2 44, 2 25 C2 8, 18 -2, 34 6 C42 10, 48 18, 50 24 C52 18, 58 10, 66 6 C82 -2, 98 8, 98 25 C98 44, 78 58, 50 82Z" fill="url(#heartGrad)" filter="url(#softGlow)" stroke="rgba(255,150,180,0.4)" stroke-width="0.8"/>
-        </svg>
-        <div class="heart-inner-text">Кирочка моя дорогая,<br>нажми на это<br>сердечко ❤</div>
-    </div>
-
-    <div class="top-tab" id="topTab">🏆 Топ моих девушек</div>
-
-    <div id="topPage">
-        <div class="back-btn" id="backBtn">← Назад</div>
-        <div class="question-box active" id="topQ">
-            <div class="question-text">Ты правда хочешь это увидеть? 👀</div>
-            <div class="buttons-row"><button class="btn btn-yes" id="btnTopYes">Да</button></div>
-        </div>
-        <div class="love-text" id="topLoveText" style="display:none;">Котенок ты мой ты у меня единственная! ❤️</div>
-        <div id="countdown" style="display:none; color:#fff; font-size:3rem; text-shadow:0 0 20px #ff69b4;"></div>
-        <div id="podiumContainer" style="display:none;">
-            <div class="podium">
-                <div class="podium-place"><div class="podium-label">🥈 2 место</div><div class="podium-bar second"></div><div class="podium-name">Никто кроме Кирочки</div><div class="podium-numbers">0 ❤</div></div>
-                <div class="podium-place"><div class="podium-label">👑 1 место</div><div class="podium-bar first"></div><div class="podium-name">Кира</div><div class="podium-numbers">∞ ❤</div></div>
-                <div class="podium-place"><div class="podium-label">🥉 3 место</div><div class="podium-bar third"></div><div class="podium-name">Никто кроме Кирочки</div><div class="podium-numbers">0 ❤</div></div>
-            </div>
-            <div class="top-message" id="topMessage"></div>
-            <div class="envelope" id="envelope">
-                <div class="envelope-body">
-                    <div class="envelope-flap"></div>
-                    <div class="envelope-seal">❤</div>
-                </div>
+            <div class="cat-option" onclick="selectCat(2)">
+                <img src="https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif" alt="Котенок 2">
             </div>
         </div>
     </div>
 
-    <div class="overlay-dark" id="overlayDark"></div>
-    <div class="letter-popup" id="letterPopup">кирочка моя дорогая,<br>ты мое солнышко,<br>мне нужна только ты<br>моя маленькая любимая<br>принцессочка дуреха 💕</div>
+    <!-- Основной контент -->
+    <div class="content-screen" id="contentScreen">
+        <div class="main-text-wrapper">
+            <div class="main-text" id="mainText"></div>
+        </div>
+    </div>
+
+    <!-- Кнопка сверху -->
+    <button class="top-btn" id="topBtn" onclick="showKiss()">💋 Поднять настроение</button>
+
+    <!-- Поцелуй -->
+    <div class="kiss-overlay" id="kissOverlay">
+        <img src="https://media1.tenor.com/m/e9UaftpXx8MAAAAC/cat-kiss.gif" alt="Целующий котик">
+        <div class="kiss-text" id="kissText">Кирочка, ты моя настоящая царица! Ты такая красивая, что я смотрю на тебя и не могу наглядеться. Твои глазки сияют как звёздочки, а улыбка светит ярче солнышка. Ты самая добрая, самая лучшая, самая любимая девочка на свете! Когда ты рядом, я чувствую себя самым счастливым рыцарем. Ты моя королева, моя госпожа, моя принцесса! Я готов носить тебя на руках и всегда говорить, какая ты замечательная. Просто ты — самая прекрасная, и я тебя очень-очень сильно люблю! Ты мой маленький звонкий лучик!</div>
+        <button class="fun-btn" onclick="closeKiss()" style="margin-top: 30px;">Закрыть</button>
+    </div>
+
+    <!-- Кнопки веселья -->
+    <div class="fun-options" id="funOptions">
+        <button class="fun-btn" onclick="startFun()">🎉 Веселье</button>
+    </div>
+
+    <!-- Вопросы -->
+    <div class="question-modal" id="questionModal">
+        <div class="question-text" id="questionText">Ты готова милая моя?</div>
+        <div class="options" id="questionOptions">
+            <button class="option-btn" onclick="answerQuestion('yes')">Да</button>
+            <button class="option-btn" onclick="answerQuestion('no')">Нет</button>
+        </div>
+    </div>
+
+    <!-- Обратный отсчет -->
+    <div class="countdown" id="countdown">3</div>
+
+    <!-- Дождь эмодзи -->
+    <div class="emoji-rain" id="emojiRain"></div>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player" id="musicPlayer">
+        <select id="musicSelect" onchange="playMusic()">
+            <option value="">Выберите песню</option>
+            <option value="barbariki">Барбарики</option>
+            <option value="masha">Маши Босая</option>
+            <option value="novella">NOVELLA - IVAN VALEEV</option>
+            <option value="anonymous">Anonymous Ember - Ineedweed</option>
+            <option value="hypnoses">Гипнозы (Hypnoses)</option>
+            <option value="malbek">МАЛЬБЭК (MALBEK)</option>
+        </select>
+    </div>
+
+    <!-- Кнопка вкл/выкл -->
+    <button class="toggle-btn" id="toggleBtn" onclick="toggleMusic()">🎵 Включить музыку</button>
+
+    <!-- Кастомный курсор -->
+    <div class="custom-cursor" id="customCursor"></div>
 
     <script>
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(tag);
+        let currentMode = '';
+        let selectedCat = 0;
+        let isHappyMode = false;
+        let isSadMode = false;
+        let musicOn = false;
+        let questionStage = 0;
+        let wrongCount = 0;
+        let emojis = [];
+        let isDragging = false;
+        let dragItem = null;
+        let offsetX, offsetY;
 
-        let ytPlayer, musicPlaying = false;
-        const musicBtn = document.getElementById('musicBtn');
+        // Звук поцелуя
+        const kissSound = new Audio('https://www.myinstants.com/media/sounds/kissing-sound.mp3');
 
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('ytPlayerContainer', {
-                height: '0', width: '0', videoId: '-62_AMtHWco',
-                playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: '-62_AMtHWco', modestbranding: 1, rel: 0 },
-                events: { onReady: () => { ytPlayer.setVolume(40); } }
+        function selectMode(mode) {
+            currentMode = mode;
+            document.getElementById('menuScreen').style.display = 'none';
+            const selection = document.getElementById('catSelection');
+            selection.style.display = 'flex';
+            
+            if (mode === 'happy') {
+                selection.className = 'cat-selection';
+                isHappyMode = true;
+                isSadMode = false;
+            } else {
+                selection.className = 'cat-selection sad-mode';
+                isHappyMode = false;
+                isSadMode = true;
+            }
+        }
+
+        function selectCat(cat) {
+            selectedCat = cat;
+            const selection = document.getElementById('catSelection');
+            selection.style.display = 'none';
+            
+            // Установка курсора
+            const cursor = document.getElementById('customCursor');
+            const cursorImg = document.createElement('img');
+            if (isHappyMode) {
+                cursorImg.src = cat === 1 ? 
+                    'https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif' : 
+                    'https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif';
+            } else {
+                cursorImg.src = cat === 1 ? 
+                    'https://media.tenor.com/mEfWM8qHU8AAAAAM/sad-cry.gif' : 
+                    'https://media.tenor.com/0JN3gEH77lMAAAAC/cat-cry.gif';
+            }
+            cursor.innerHTML = '';
+            cursor.appendChild(cursorImg);
+            cursor.style.display = 'block';
+            
+            // Показ контента
+            const screen = document.getElementById('contentScreen');
+            screen.style.display = 'block';
+            screen.className = 'content-screen ' + (isHappyMode ? 'happy' : 'sad');
+            
+            // Показ текста с эффектом печати
+            showMainText();
+            
+            // Показ кнопок
+            document.getElementById('topBtn').style.display = 'block';
+            
+            if (isHappyMode) {
+                document.getElementById('funOptions').style.display = 'flex';
+                document.getElementById('toggleBtn').style.display = 'none';
+                document.getElementById('musicPlayer').style.display = 'none';
+            } else {
+                document.getElementById('funOptions').style.display = 'none';
+                document.getElementById('toggleBtn').style.display = 'block';
+                document.getElementById('musicPlayer').style.display = 'block';
+                // Грустные эмодзи
+                startRain('sad');
+            }
+        }
+
+        function showMainText() {
+            const textEl = document.getElementById('mainText');
+            let text = '';
+            
+            if (isHappyMode) {
+                text = 'Кирочка, моя царица и любимая девочка! Ты самая-самая красивая, как солнышко! Когда ты улыбаешься, у меня всё внутри прыгает от счастья! Ты моя принцесса, и я всегда буду рядом, чтобы защищать тебя и радовать. Давай сегодня будем смеяться, дурачиться и делать друг другу приятности! Ты самая лучшая на свете, и я так рад, что ты у меня есть! Подними своё прекрасное личико и улыбнись, пожалуйста! Я тебя очень сильно люблю! Ты моя радость!';
+                textEl.className = 'main-text visible happy-text';
+            } else {
+                text = 'Кирочка, моя царица, моя любимая дуреха, моя самая красивая девочка на свете! Я сижу и думаю о тебе, и у меня сердце так сильно бьётся, что я слышу его. Ты даже не представляешь, как я тебя люблю. Когда ты улыбаешься — у меня праздник внутри, когда ты грустишь — я готов горы свернуть, чтобы ты снова засмеялась. Я хочу всегда быть рядом, держать тебя за руку, обнимать и говорить, какая ты у меня невероятная. Ты — мой маленький лучик, моя звёздочка, моя самая родная душа. Я так боюсь тебя потерять, потому что без тебя мир станет серым и пустым. Ты моя жизнь, моя радость, моя вечная королева. Я люблю тебя больше всего на свете, и никто-никто никогда не будет таким важным, как ты. Ты моя самая любимая дуреха, и я хочу, чтобы ты знала: ты одна такая на всю вселенную. Не плачь, моя хорошая, я рядом, я всегда буду твоим рыцарем. Ты у меня самая лучшая, самая родная, и я никогда-никогда тебя не брошу. Только ты, только моя Кирочка. Люблю тебя до слёз и до самых звёзд!';
+                textEl.className = 'main-text visible sad-text';
+            }
+            
+            textEl.textContent = '';
+            textEl.classList.add('visible');
+            
+            if (isSadMode) {
+                // Для грустного режима - по предложениям
+                const sentences = text.split('. ');
+                let index = 0;
+                
+                function typeSentence() {
+                    if (index >= sentences.length) {
+                        setTimeout(() => {
+                            textEl.textContent = '';
+                            textEl.classList.remove('visible');
+                            setTimeout(() => {
+                                // После всего текста - отсчет
+                                startCountdown();
+                            }, 500);
+                        }, 2000);
+                        return;
+                    }
+                    
+                    const sentence = sentences[index];
+                    let charIndex = 0;
+                    textEl.textContent = '';
+                    
+                    function typeChar() {
+                        if (charIndex < sentence.length) {
+                            textEl.textContent += sentence[charIndex];
+                            charIndex++;
+                            setTimeout(typeChar, 30);
+                        } else {
+                            textEl.textContent += '.';
+                            setTimeout(() => {
+                                textEl.textContent = '';
+                                index++;
+                                setTimeout(typeSentence, 500);
+                            }, 1500);
+                        }
+                    }
+                    typeChar();
+                }
+                typeSentence();
+            } else {
+                // Для веселого режима - обычный текст
+                let charIndex = 0;
+                function typeHappy() {
+                    if (charIndex < text.length) {
+                        textEl.textContent += text[charIndex];
+                        charIndex++;
+                        setTimeout(typeHappy, 40);
+                    } else {
+                        setTimeout(() => {
+                            textEl.textContent = '';
+                            textEl.classList.remove('visible');
+                            setTimeout(() => {
+                                // Показ кнопки веселья
+                                document.getElementById('funOptions').style.display = 'flex';
+                            }, 500);
+                        }, 3000);
+                    }
+                }
+                typeHappy();
+            }
+        }
+
+        function showKiss() {
+            document.getElementById('kissOverlay').style.display = 'flex';
+            kissSound.play();
+            
+            const kissText = document.getElementById('kissText');
+            kissText.classList.remove('visible');
+            
+            setTimeout(() => {
+                kissText.classList.add('visible');
+            }, 100);
+        }
+
+        function closeKiss() {
+            document.getElementById('kissOverlay').style.display = 'none';
+            document.getElementById('kissText').classList.remove('visible');
+        }
+
+        function startFun() {
+            document.getElementById('funOptions').style.display = 'none';
+            showQuestion('Ты готова милая моя?', ['Да', 'Нет']);
+            questionStage = 0;
+        }
+
+        function showQuestion(text, options) {
+            const modal = document.getElementById('questionModal');
+            modal.style.display = 'flex';
+            document.getElementById('questionText').textContent = text;
+            
+            const optionsContainer = document.getElementById('questionOptions');
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => answerQuestion(opt.toLowerCase());
+                optionsContainer.appendChild(btn);
             });
         }
 
-        const ytContainer = document.createElement('div');
-        ytContainer.id = 'ytPlayerContainer';
-        ytContainer.style.cssText = 'position:fixed;top:-9999px;left:-9999px;pointer-events:none;';
-        document.body.appendChild(ytContainer);
-
-        musicBtn.addEventListener('click', () => { if (!musicPlaying) startMusic(); else stopMusic(); });
-
-        function startMusic() {
-            if (ytPlayer && ytPlayer.playVideo) {
-                ytPlayer.playVideo(); ytPlayer.unMute();
-                musicPlaying = true; musicBtn.classList.add('playing'); musicBtn.textContent = '🔊';
-            }
-        }
-        function stopMusic() {
-            if (ytPlayer && ytPlayer.pauseVideo) {
-                ytPlayer.pauseVideo(); musicPlaying = false;
-                musicBtn.classList.remove('playing'); musicBtn.textContent = '🔇';
-            }
-        }
-        document.addEventListener('click', function autoStart() {
-            if (!musicPlaying && ytPlayer && ytPlayer.playVideo) startMusic();
-        }, { once: false });
-
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            petal.textContent = ['🌸','💮','🌷','🩷','💖','✨','💕','🪷'][Math.floor(Math.random()*8)];
-            petal.style.left = Math.random()*100+'%'; petal.style.top = '-5vh';
-            petal.style.fontSize = (0.8+Math.random()*1.5)+'rem';
-            petal.style.setProperty('--drift',(Math.random()-0.5)*200+'px');
-            petal.style.setProperty('--spin',(Math.random()*720-360)+'deg');
-            petal.style.setProperty('--fallDuration',(8+Math.random()*12)+'s');
-            document.body.appendChild(petal);
-            setTimeout(()=>petal.remove(),20000);
-        }
-        setInterval(createPetal,800);
-        for(let i=0;i<5;i++) setTimeout(createPetal,i*300);
-
-        const canvas=document.getElementById('heartCanvas'),ctx=canvas.getContext('2d');
-        let width,height,canvasSparks=[],time=0;
-        function resizeCanvas(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;}
-        resizeCanvas();window.addEventListener('resize',resizeCanvas);
-
-        function drawSoftHeart(x,y,size,alpha=1){
-            ctx.save();ctx.globalAlpha=alpha;
-            const glow=ctx.createRadialGradient(x,y-size*0.05,size*0.05,x,y,size*1.1);
-            glow.addColorStop(0,'rgba(255,150,180,0.6)');glow.addColorStop(0.5,'rgba(255,100,150,0.2)');glow.addColorStop(1,'rgba(255,50,100,0)');
-            ctx.fillStyle=glow;ctx.beginPath();
-            ctx.moveTo(x,y+size*0.35);ctx.bezierCurveTo(x-size*0.5,y,x-size*0.5,y-size*0.6,x,y-size*0.3);
-            ctx.bezierCurveTo(x+size*0.5,y-size*0.6,x+size*0.5,y,x,y+size*0.35);ctx.fill();
-            ctx.strokeStyle=`rgba(255,160,190,${alpha*0.35})`;ctx.lineWidth=1.2;ctx.stroke();ctx.restore();
-        }
-
-        class CanvasFirefly{
-            constructor(x,y){this.x=x;this.y=y;this.vx=(Math.random()-0.5)*1.2;this.vy=(Math.random()-0.5)*1.2-0.5;this.life=1;this.decay=0.005+Math.random()*0.015;this.size=1.5+Math.random()*2.5;this.phase=Math.random()*Math.PI*2;}
-            update(){this.x+=this.vx;this.y+=this.vy;this.vx+=(Math.random()-0.5)*0.1;this.vy+=(Math.random()-0.5)*0.1;this.life-=this.decay;this.phase+=0.05;}
-            draw(ctx){const alpha=this.life*(0.5+0.5*Math.sin(this.phase*3));ctx.fillStyle=`rgba(255,180,200,${alpha})`;ctx.shadowColor=`rgba(255,150,180,${alpha*0.8})`;ctx.shadowBlur=this.size*3;ctx.beginPath();ctx.arc(this.x,this.y,this.size*this.life,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;}
-            get dead(){return this.life<=0;}
-        }
-
-        function spawnCanvasFireflies(x,y,count){for(let i=0;i<count;i++)canvasSparks.push(new CanvasFirefly(x,y));}
-        function animateCanvas(){
-            ctx.clearRect(0,0,width,height);time+=0.015;
-            const cx=width/2,cy=height/2,heartbeat=1+Math.sin(time*2)*0.02,heartSize=Math.min(width,height)*0.33*heartbeat;
-            drawSoftHeart(cx,cy,heartSize);
-            if(Math.random()<0.3){const angle=Math.random()*Math.PI*2,dist=heartSize*0.72,sx=cx+Math.cos(angle)*dist,sy=cy+Math.sin(angle)*dist*0.72;spawnCanvasFireflies(sx,sy,1);}
-            canvasSparks.forEach(s=>s.update());canvasSparks=canvasSparks.filter(s=>!s.dead);canvasSparks.forEach(s=>s.draw(ctx));
-            requestAnimationFrame(animateCanvas);
-        }
-        animateCanvas();
-
-        function spawnLoveParticles(x,y){
-            const emojis=['❤️','💖','💕','💗','💝','💘','✨','🩷','🥺','💌'];
-            for(let i=0;i<25;i++){
-                const p=document.createElement('div');p.className='love-particle';
-                p.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-                p.style.left=x+'px';p.style.top=y+'px';
-                p.style.setProperty('--px',(Math.random()-0.5)*500+'px');p.style.setProperty('--py',(Math.random()-0.5)*500+'px');
-                document.body.appendChild(p);setTimeout(()=>p.remove(),3000);
+        function answerQuestion(answer) {
+            const modal = document.getElementById('questionModal');
+            
+            if (questionStage === 0) {
+                if (answer === 'нет') {
+                    modal.querySelector('.question-text').innerHTML = 'НЕПРАВИЛЬНЫЙ ОТВЕТ!!😡😡';
+                    modal.querySelector('.question-text').className = 'question-text wrong-answer';
+                    setTimeout(() => {
+                        modal.querySelector('.question-text').textContent = 'Еще раз давай';
+                        modal.querySelector('.question-text').className = 'question-text';
+                        document.getElementById('questionOptions').innerHTML = '';
+                        const btn1 = document.createElement('button');
+                        btn1.className = 'option-btn';
+                        btn1.textContent = 'Да';
+                        btn1.onclick = () => answerQuestion('да');
+                        const btn2 = document.createElement('button');
+                        btn2.className = 'option-btn';
+                        btn2.textContent = 'Да';
+                        btn2.onclick = () => answerQuestion('да');
+                        document.getElementById('questionOptions').appendChild(btn1);
+                        document.getElementById('questionOptions').appendChild(btn2);
+                    }, 1500);
+                } else {
+                    modal.style.display = 'none';
+                    startCountdown();
+                }
             }
         }
 
-        const q1=document.getElementById('q1'),q2=document.getElementById('q2'),q3=document.getElementById('q3');
-        const btnYes1=document.getElementById('btnYes1'),btnNo1=document.getElementById('btnNo1'),btnYes2=document.getElementById('btnYes2'),btnYes3=document.getElementById('btnYes3');
-        const loveText1=document.getElementById('loveText1'),loveText2=document.getElementById('loveText2'),loveText3=document.getElementById('loveText3');
-        const finalHeart=document.getElementById('finalHeart'),heartCanvasEl=document.getElementById('heartCanvas');
-        const topTab=document.getElementById('topTab'),topPage=document.getElementById('topPage'),backBtn=document.getElementById('backBtn');
-        const envelope=document.getElementById('envelope'),letterPopup=document.getElementById('letterPopup'),overlayDark=document.getElementById('overlayDark');
-
-        btnNo1.addEventListener('mouseover',moveNoButton);btnNo1.addEventListener('touchstart',e=>{e.preventDefault();moveNoButton();});
-        function moveNoButton(){const mx=window.innerWidth-btnNo1.offsetWidth-30,my=window.innerHeight-btnNo1.offsetHeight-30;btnNo1.style.position='fixed';btnNo1.style.left=Math.random()*mx+'px';btnNo1.style.top=Math.random()*my+'px';btnNo1.style.zIndex='200';}
-
-        btnYes1.addEventListener('click',()=>{q1.classList.remove('active');loveText1.classList.add('active');if(!musicPlaying)startMusic();setTimeout(()=>{loveText1.classList.remove('active');q2.classList.add('active');},2200);});
-        btnYes2.addEventListener('click',()=>{q2.classList.remove('active');loveText2.classList.add('active');setTimeout(()=>{loveText2.classList.remove('active');q3.classList.add('active');},2200);});
-        btnYes3.addEventListener('click',()=>{q3.classList.remove('active');loveText3.classList.add('active');setTimeout(()=>{loveText3.classList.remove('active');showFinalHeart();},2500);});
-
-        function showFinalHeart(){
-            finalHeart.classList.add('active');heartCanvasEl.classList.add('unblurred');topTab.classList.add('visible');
-            setInterval(()=>{const hr=finalHeart.getBoundingClientRect(),cx=hr.left+hr.width/2,cy=hr.top+hr.height/2;for(let i=0;i<3;i++){const a=Math.random()*Math.PI*2,sx=cx+Math.cos(a)*200,sy=cy+Math.sin(a)*200*0.7,ff=document.createElement('div');ff.className='firefly';ff.style.left=sx+'px';ff.style.top=sy+'px';ff.style.setProperty('--dx',(Math.random()-0.5)*200+'px');ff.style.setProperty('--dy',(Math.random()-0.5)*200-50+'px');ff.style.setProperty('--duration',(2+Math.random()*3)+'s');document.body.appendChild(ff);setTimeout(()=>ff.remove(),5000);}},300);
+        function startCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            countdownEl.style.display = 'block';
+            let count = 3;
+            
+            function updateCount() {
+                countdownEl.textContent = count;
+                if (count <= 0) {
+                    countdownEl.style.display = 'none';
+                    if (isHappyMode) {
+                        startHappyRain();
+                    } else {
+                        // Для грустного режима после отсчета ничего не происходит
+                        document.getElementById('toggleBtn').style.display = 'block';
+                        document.getElementById('musicPlayer').style.display = 'block';
+                    }
+                    return;
+                }
+                count--;
+                setTimeout(updateCount, 1000);
+            }
+            updateCount();
         }
 
-        finalHeart.addEventListener('click',burstHeart);
-        function burstHeart(){
-            const hr=finalHeart.getBoundingClientRect(),cx=hr.left+hr.width/2,cy=hr.top+hr.height/2;
-            spawnLoveParticles(cx,cy);
-            const boom=document.createElement('div');boom.className='heartbeat-effect';boom.style.left=cx+'px';boom.style.top=cy+'px';document.body.appendChild(boom);setTimeout(()=>boom.remove(),1000);
-            finalHeart.style.opacity='0';finalHeart.style.transition='opacity 1s ease';
-            const msgs=['Я люблю тебя безумно ❤','Ты самая лучшая 💖','Извини меня за все 🥺','Ты мое солнышко ☀','Ты самая красивая 💕','Я тебя обожаю 💗','Ты моя принцесса 👑','Я без тебя не могу 💘','Ты мой смысл жизни 🌍','Прости меня родная 💝'];
-            for(let wave=0;wave<3;wave++){setTimeout(()=>{msgs.forEach((msg,i)=>setTimeout(()=>createGraphCard(msg,cx,cy),i*200));},wave*2500);}
+        function startHappyRain() {
+            const container = document.getElementById('emojiRain');
+            container.innerHTML = '';
+            const emojisList = ['❤️', '🌸', '😊', '💖', '🌺', '😍', '💕', '🌷', '✨', '💗', '🌹', '💝', '🌻', '💞', '🌼', '💓', '🌿', '💘', '🌺', '😄'];
+            
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji-item';
+                emoji.textContent = emojisList[i % emojisList.length];
+                emoji.style.left = Math.random() * 90 + '%';
+                emoji.style.top = '-50px';
+                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
+                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
+                emoji.style.animationDelay = Math.random() * 5 + 's';
+                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Возможность перетаскивать
+                emoji.addEventListener('mousedown', startDrag);
+                emoji.addEventListener('touchstart', startDragTouch);
+                
+                container.appendChild(emoji);
+                emojis.push(emoji);
+            }
+            
+            // Добавляем стили для анимации дождя
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes rain {
+                    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Воспроизводим песню
+            playMusic('barbariki');
         }
 
-        function createGraphCard(text,sx,sy){
-            const card=document.createElement('div');card.className='graph-card';card.textContent=text;
-            const angle=(Math.random()-0.5)*2.2,dist=250+Math.random()*350;
-            card.style.setProperty('--driftX',Math.sin(angle)*dist+'px');card.style.setProperty('--driftY',-Math.cos(angle)*dist-100+'px');
-            card.style.left=sx+'px';card.style.top=sy+'px';document.body.appendChild(card);setTimeout(()=>card.remove(),6500);
+        function startDrag(e) {
+            const item = e.target;
+            isDragging = true;
+            dragItem = item;
+            offsetX = e.clientX - item.getBoundingClientRect().left;
+            offsetY = e.clientY - item.getBoundingClientRect().top;
+            item.style.position = 'fixed';
+            item.style.animation = 'none';
+            item.style.zIndex = 100;
+            item.style.cursor = 'grab';
+            
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
         }
 
-        topTab.addEventListener('click',()=>{topPage.classList.add('active');finalHeart.classList.remove('active');topTab.classList.remove('visible');heartCanvasEl.classList.remove('unblurred');resetTopPage();});
-        backBtn.addEventListener('click',()=>{topPage.classList.remove('active');backBtn.classList.remove('visible');letterPopup.classList.remove('visible','zoomed');overlayDark.classList.remove('visible');envelope.classList.remove('open');finalHeart.classList.add('active');heartCanvasEl.classList.add('unblurred');topTab.classList.add('visible');});
-
-        function resetTopPage(){
-            document.getElementById('topQ').classList.add('active');document.getElementById('topQ').style.display='flex';
-            document.getElementById('topLoveText').style.display='none';document.getElementById('topLoveText').classList.remove('active');
-            document.getElementById('countdown').style.display='none';document.getElementById('podiumContainer').style.display='none';
-            document.getElementById('topMessage').classList.remove('visible');document.getElementById('topMessage').innerHTML='';
-            envelope.classList.remove('visible','open');letterPopup.classList.remove('visible','zoomed');overlayDark.classList.remove('visible');
+        function startDragTouch(e) {
+            const touch = e.touches[0];
+            const item = e.target;
+            isDragging = true;
+            dragItem = item;
+            offsetX = touch.clientX - item.getBoundingClientRect().left;
+            offsetY = touch.clientY - item.getBoundingClientRect().top;
+            item.style.position = 'fixed';
+            item.style.animation = 'none';
+            item.style.zIndex = 100;
+            
+            document.addEventListener('touchmove', onDragTouch);
+            document.addEventListener('touchend', stopDragTouch);
         }
 
-        document.getElementById('btnTopYes').addEventListener('click',()=>{
-            document.getElementById('topQ').style.display='none';
-            const lt=document.getElementById('topLoveText');lt.style.display='block';lt.classList.add('active');
-            setTimeout(()=>{lt.style.display='none';lt.classList.remove('active');startCountdown();},2500);
+        function onDrag(e) {
+            if (!isDragging || !dragItem) return;
+            dragItem.style.left = (e.clientX - offsetX) + 'px';
+            dragItem.style.top = (e.clientY - offsetY) + 'px';
+        }
+
+        function onDragTouch(e) {
+            if (!isDragging || !dragItem) return;
+            const touch = e.touches[0];
+            dragItem.style.left = (touch.clientX - offsetX) + 'px';
+            dragItem.style.top = (touch.clientY - offsetY) + 'px';
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            dragItem = null;
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        function stopDragTouch() {
+            isDragging = false;
+            dragItem = null;
+            document.removeEventListener('touchmove', onDragTouch);
+            document.removeEventListener('touchend', stopDragTouch);
+        }
+
+        function startRain(type) {
+            const container = document.getElementById('emojiRain');
+            container.innerHTML = '';
+            const emojisList = type === 'sad' ? 
+                ['💀', '🌹', '😢', '💔', '😭', '🥀', '😿', '🖤', '😞', '💧', '😔', '🌑', '😰', '💫', '😩', '🌙', '😥', '⭐', '😪', '🌧️'] :
+                ['❤️', '🌸', '😊', '💖', '🌺', '😍', '💕', '🌷', '✨', '💗', '🌹', '💝', '🌻', '💞', '🌼', '💓', '🌿', '💘', '🌺', '😄'];
+            
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji-item';
+                emoji.textContent = emojisList[i % emojisList.length];
+                emoji.style.left = Math.random() * 90 + '%';
+                emoji.style.top = '-50px';
+                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
+                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
+                emoji.style.animationDelay = Math.random() * 5 + 's';
+                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                emoji.addEventListener('mousedown', startDrag);
+                emoji.addEventListener('touchstart', startDragTouch);
+                
+                container.appendChild(emoji);
+                emojis.push(emoji);
+            }
+        }
+
+        function playMusic(song) {
+            // Здесь нужно добавить реальное воспроизведение музыки через YouTube API или аудио файлы
+            // Для демонстрации просто показываем уведомление
+            const songName = song || document.getElementById('musicSelect').value;
+            console.log('Playing music:', songName);
+            alert('🎵 Воспроизведение музыки: ' + songName);
+        }
+
+        function toggleMusic() {
+            musicOn = !musicOn;
+            const btn = document.getElementById('toggleBtn');
+            if (musicOn) {
+                btn.textContent = '🎵 Выключить музыку';
+                document.getElementById('musicPlayer').style.display = 'block';
+                // Включаем музыку
+                playMusic();
+            } else {
+                btn.textContent = '🎵 Включить музыку';
+                document.getElementById('musicPlayer').style.display = 'none';
+                // Останавливаем музыку
+                console.log('Music stopped');
+            }
+        }
+
+        // Обработка движения курсора
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('customCursor');
+            if (cursor.style.display !== 'none') {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
         });
 
-        function startCountdown(){
-            const cd=document.getElementById('countdown');cd.style.display='block';let count=3;cd.textContent=count;
-            const interval=setInterval(()=>{count--;if(count>0)cd.textContent=count;else{clearInterval(interval);cd.style.display='none';showPodium();}},1000);
-        }
-
-        function showPodium(){document.getElementById('podiumContainer').style.display='block';backBtn.classList.add('visible');setTimeout(()=>typeWriterMessage(),3000);}
-
-        const fullMessage="Кирочка, моя королева и принцесса! Прости меня, пожалуйста! Я назвал другую девочку дурехой, просто так сказал, не подумав. Но я люблю только тебя, одну-единственную Кирочку! Та девочка мне никто, а ты — моя самая любимая. Я больше никогда не буду говорить плохих слов, даже про других. Только ты моя королева! Прости меня, пожалуйста, я очень раскаиваюсь! Ты самая лучшая!";
-
-        function typeWriterMessage(){
-            const msgEl=document.getElementById('topMessage');msgEl.classList.add('visible');let i=0,deleting=false;
-            function type(){
-                if(!deleting){
-                    if(i<fullMessage.length){msgEl.innerHTML=fullMessage.substring(0,i+1)+'<span class="cursor-blink">|</span>';i++;setTimeout(type,60);}
-                    else{msgEl.innerHTML=fullMessage+'<span class="cursor-blink">.</span>';setTimeout(()=>{msgEl.innerHTML=fullMessage+'<span class="cursor-blink">.</span>.';},500);setTimeout(()=>{msgEl.innerHTML=fullMessage+'<span class="cursor-blink">.</span>..';},1000);setTimeout(()=>{deleting=true;type();},4000);}
-                }else{if(i>0){i--;msgEl.innerHTML=fullMessage.substring(0,i)+'<span class="cursor-blink">|</span>';setTimeout(type,50);}else{msgEl.innerHTML='';msgEl.classList.remove('visible');showEnvelope();}}
-            }
-            type();
-        }
-
-        function showEnvelope(){envelope.classList.add('visible');envelope.addEventListener('click',openEnvelope);}
-        function openEnvelope(){envelope.classList.add('open');setTimeout(()=>{letterPopup.classList.add('visible');overlayDark.classList.add('visible');},600);}
-        letterPopup.addEventListener('click',e=>{e.stopPropagation();letterPopup.classList.toggle('zoomed');});
-        overlayDark.addEventListener('click',()=>{letterPopup.classList.remove('visible','zoomed');overlayDark.classList.remove('visible');envelope.classList.remove('open');});
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('customCursor').style.display = 'none';
+        });
     </script>
 </body>
 </html>
